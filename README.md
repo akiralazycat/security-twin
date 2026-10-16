@@ -4,7 +4,7 @@
 
 Security Twin is a local-first security dependency simulator. Its first web experience models a **fictional** account's smartphone, mailbox and recovery prerequisites. Visitors can switch failure scenarios, inspect the resulting graph and accessible route list, and compare a hypothetical independent security key — without an account or personal inputs.
 
-> **Status (2026-10-17):** Phase 1 engine merged to main. The Phase 2a guest atlas and Next.js shell are implemented and validated on branch `feat/phase-2-guest-atlas`. No production deployment is confirmed. Real user-specific graphs and encrypted persistence are not implemented.
+> **Status (2026-10-17):** Phase 1 engine merged to main. The Phase 2a guest atlas and Next.js shell are implemented and validated on branch `feat/phase-2-guest-atlas`. The initial protected Vercel deployment is READY, though real iPhone Safari QA remains outstanding. Real user-specific graphs and encrypted persistence are not implemented.
 
 ## Run locally (Node 22 or 24)
 
@@ -35,7 +35,7 @@ No login, cloud database, AI request, secret import, real provider integration o
 - [Phase 2 design](docs/PHASE2_DESIGN.md) — UX reference principles, copy and accessibility acceptance, data-storage prohibition.
 - [Progress & handoff](docs/PROGRESS.md) — verified state, commits, tests, Vercel target and next action.
 
-**Hosting:** Vercel project `security-twin` exists in the configured team. Preview auto-deployments are disabled and the project is not yet connected to the Git repository; production is not yet shipped. No GitHub Actions needed.
+**Hosting:** [Security Twin on Vercel](https://security-twin-sphereorb.vercel.app) (deployment `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh`, READY; Vercel Authentication protection enabled). Platform assigned the first manual Git-sourced deployment a **production** target; the repository is not connected for Git-triggered auto deployments, and automatic preview deployments are disabled. Real-device Safari/VoiceOver QA remains open. No GitHub Actions needed.
 
 ## License
 
