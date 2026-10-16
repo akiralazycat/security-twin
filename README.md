@@ -4,7 +4,7 @@
 
 Security Twin is a local-first security dependency simulator. Its first web experience models a **fictional** account's smartphone, mailbox and recovery prerequisites. Visitors can switch failure scenarios, inspect the resulting graph and accessible route list, and compare a hypothetical independent security key — without an account or personal inputs.
 
-> **Status (2026-10-17):** Phase 1 engine merged to main. The Phase 2a guest atlas and Next.js shell are implemented and validated on branch `feat/phase-2-guest-atlas`. The initial protected Vercel deployment is READY, though real iPhone Safari QA remains outstanding. Real user-specific graphs and encrypted persistence are not implemented.
+> **Status (2026-10-17):** Phase 1 engine merged to main. The Phase 2a guest atlas and Next.js shell are implemented and verified on `main` (merged PR #2). The initial protected Vercel deployment is READY, though real iPhone Safari QA remains outstanding. Real user-specific graphs and encrypted persistence are not implemented.
 
 ## Run locally (Node 22 or 24)
 
