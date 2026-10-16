@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import {
-  DEMO_MODEL, DEMO_SCENARIOS, evaluateDemo, reportStatus,
+  DEMO_MODEL, evaluateDemo, reportStatus,
   type DemoScenarioKey,
 } from "../src/demo";
 import type { CapabilityResult, Status } from "../src/engine";
@@ -208,6 +208,20 @@ export default function SecurityWorkspace() {
                   ))}
                   <span className="atlas-note">メールを使う復旧には<br />追加の本人確認が必要という仮定</span>
                 </div>
+                <div className="atlas-path-list" role="list" aria-label="各認証経路の評価">
+                  <div className="path-list-item" role="listitem">
+                    <span><StatusMark status={phone} /> 通常ログイン / スマートフォン</span>
+                    <strong>{ownerWord(phone)}</strong>
+                  </div>
+                  {proposed && <div className="path-list-item" role="listitem">
+                    <span><StatusMark status={spare} /> 通常ログイン / 予備キー（仮）</span>
+                    <strong>{ownerWord(spare)}</strong>
+                  </div>}
+                  <div className="path-list-item" role="listitem">
+                    <span><StatusMark status={recovery.status} /> アカウント復旧 / メールと本人確認</span>
+                    <strong>{ownerWord(recovery.status)}</strong>
+                  </div>
+                </div>
                 <div className="atlas-footer">
                   <div className="node-detail" aria-live="polite">
                     <span className="detail-kicker">{selected.kind} / 選択中</span>
@@ -257,7 +271,7 @@ export default function SecurityWorkspace() {
               </div>
               <div className="result-line">
                 <div><span>第三者による乗っ取り</span><strong>{attackerWord(takeover.status)}</strong></div>
-                <StatusMark status={takeover.status} />
+                <span className={"status-mark attack-status attack-" + takeover.status} aria-hidden="true" />
               </div>
               <div className="explanation">
                 <span className="panel-index">なぜこの結果に？</span>
