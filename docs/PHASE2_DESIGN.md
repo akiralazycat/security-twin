@@ -1,7 +1,7 @@
 # Phase 2 — Guest atlas vertical slice
 
 > **Status:** Guest atlas alpha implemented and tested · 2026-10-17 (JST)  
-> **Branch:** `feat/phase-2-guest-atlas`  
+> **Implementation:** merged into `main` via PR #2, 2026-10-17 (squash commit `348d86f76dfde4569df9943b760095a11def5d77`); original branch `feat/phase-2-guest-atlas`  
 > **Source of truth:** [MASTER_PLAN.md](./MASTER_PLAN.md), [DOMAIN_MODEL.md](./DOMAIN_MODEL.md), [PROGRESS.md](./PROGRESS.md)
 
 ## Scope for this branch
