@@ -1,9 +1,9 @@
 # Security Twin — Progress & Handoff
 
 > **Updated:** 2026-10-17 (JST)  
-> **Project status:** Planning baseline documented; implementation not started  
+> **Project status:** Phase 1 domain design committed; engine work in progress  
 > **Authoritative intent:** [MASTER_PLAN.md](./MASTER_PLAN.md)  
-> **Branch:** `main` (as of initial handoff)  
+> **Branch:** `feat/phase-1-domain-engine` (unmerged)  
 > **Next focus:** Phase 1 — typed domain model and deterministic scenario evaluation
 
 ## Snapshot: current reality (do not infer completion from the plan)
@@ -41,11 +41,11 @@ No tests or builds were run for this documentation-only change. No remote servic
 
 ### Phase 1: model & deterministic engine — **NEXT**
 
-- [ ] Write `docs/DOMAIN_MODEL.md` with entity/edge vocabulary and threat assumptions. Keep this as a precise design, not a second master plan.
-- [ ] Define capability semantics for login, account recovery, authenticator re-enrollment, sensitive-account changes, and attacker takeover.
-- [ ] Define AND / OR / threshold prerequisites and cycles; explain three-valued unknown behavior and assumptions.
-- [ ] Decide in-memory baseline/candidate version semantics and source/evidence metadata.
-- [ ] Prepare synthetic fixtures for: lost phone, lost mailbox, compromised mailbox, separate spare key, shared failure domain, unknown recovery, malicious recovery path, and graph cycle.
+- [x] Write `docs/DOMAIN_MODEL.md` with entity/edge vocabulary and threat assumptions. Keep this as a precise design, not a second master plan.
+- [x] Define capability semantics for login, account recovery, authenticator re-enrollment, sensitive-account changes, and attacker takeover.
+- [x] Define AND / OR / threshold prerequisites and cycles; explain three-valued unknown behavior and assumptions.
+- [x] Decide in-memory baseline/candidate version semantics and source/evidence metadata.
+- [x] Prepare synthetic fixtures for: lost phone, lost mailbox, compromised mailbox, separate spare key, shared failure domain, unknown recovery, malicious recovery path, and graph cycle.
 - [ ] Implement a **pure local library** computing outcomes and explanation paths from fixtures; choose repository structure only when actual code is needed.
 - [ ] Run targeted local tests and record commands/results. No GitHub Actions required.
 - [ ] Document limitations and cases where a provider-specific conclusion is not justified.
@@ -99,6 +99,16 @@ Then implement the smallest engine that passes those fixtures. Review the comple
 Never imply an unexecuted test passed or an unmerged change shipped.
 
 ## Dated change log
+
+### 2026-10-17 — Phase 1 domain semantics (design complete; engine pending)
+
+- Branch: `feat/phase-1-domain-engine`; documented schema, three-valued semantics, owner/attacker distinction, scenario assumptions, cycles, candidates and ten synthetic fixtures in `docs/DOMAIN_MODEL.md`.
+- Commit: `2a60d53a35a64f6d530768805c382a664fcdd6b6`.
+- Consulted `core` copy guidance and existing sizuq/PluraThink/Luneidea UI implementations. UI direction and Vercel-hosting assumption are now recorded in `docs/DOMAIN_MODEL.md` without creating a generic UI scaffold.
+- Tests/build/deploy: **not run** (design document only). Vercel project named `security-twin`: **not found** in accessible project listing. No production deployment or account changes.
+- Next: implement the pure, bounded TypeScript evaluator and deterministic synthetic tests; then run tests and record real results.
+
+
 
 ### 2026-10-17 — Initial planning baseline
 
