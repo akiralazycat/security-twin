@@ -1,6 +1,6 @@
 # Phase 2 — Guest atlas vertical slice
 
-> **Status:** Implementation decision · 2026-10-17 (JST)  
+> **Status:** Guest atlas alpha implemented and tested · 2026-10-17 (JST)  
 > **Branch:** `feat/phase-2-guest-atlas`  
 > **Source of truth:** [MASTER_PLAN.md](./MASTER_PLAN.md), [DOMAIN_MODEL.md](./DOMAIN_MODEL.md), [PROGRESS.md](./PROGRESS.md)
 
@@ -38,8 +38,18 @@ Copy follows `akiralazycat/core/docs/copy/product-copy-guidelines-v1.md`: concre
 - No secrets, no personal data entry, no persistence or external account changes.
 - Build/test verified; actual mobile viewport checks recorded explicitly (run or unrun).
 
+## Implementation status and completed verification (2026-10-17)
+
+- Implemented: `src/demo.ts`, `components/SecurityWorkspace.tsx`, `app/{layout,page,globals.css,icon.svg}`, Next.js configuration and a dependency lockfile. The sample model is isolated from real providers.
+- Unit tests: **18/18 pass** (12 engine, 6 demo); cloud sandbox on Node 24.21.0, `npm ci --no-audit --no-fund` + `npm test`.
+- Typecheck: `npm run typecheck` **passed**.
+- Production build: `NEXT_TELEMETRY_DISABLED=1 npm run build` **passed**; prerendered `/` as static content, no backend.
+- Chromium automated viewport checks: **320, 390, 768, 1280 px passed**. Exercised initial phone loss → hypothetical independent spare-key login, lost-mailbox recovery failure, compromised-mailbox takeover unknown, and network console requests. No unexpected external requests, JS page errors or horizontal document overflow detected in these runs.
+- Real iPhone/Safari and screen-reader manual audit: **not yet performed**; do not claim cross-device certification. Scenario actions use `aria-pressed`, the proposal uses `role=switch`, active details use `aria-live`, and a text-based path list is always present.
+- No GitHub Actions used or added. Chromium browser dependencies installed **only inside disposable Vercel sandbox**, never in deployed site dependencies.
+
 ## Implementation / release
 
-Next.js App Router + React + TypeScript, CSS authored for this product. `src/engine.ts` remains the single calculation source. Vercel is the intended static-hosted web target; do not introduce Neon/Supabase, login, AI, remote APIs or GitHub Actions. Git-linked Vercel project should prefer production-branch builds and avoid repeated preview builds, consistent with resource-conscious operations. Inspect current project configuration before deploying.
+Next.js App Router + React + TypeScript, CSS authored for this product. `src/engine.ts` remains the single calculation source. Vercel is the intended static-hosted web target (project `security-twin`, ID `prj_aFaxHaHyNd4d7TW3Mwiir7oPamtl` created, preview deployments disabled); do not introduce Neon/Supabase, login, AI, remote APIs or GitHub Actions. Git-linked Vercel project should prefer production-branch builds and avoid repeated preview builds, consistent with resource-conscious operations. Inspect current project configuration before deploying.
 
-**Phase 2a exit**: functional demo, scenario and candidate test coverage, typecheck/build pass, mobile/accessibility assessment. **Phase 2b** (not this branch): a privacy-reviewed personal model builder, resilient storage/export and broader verification workflow.
+**Phase 2a exit**: functional demo, scenario and candidate test coverage, typecheck/build pass and automated Chromium viewport assessment are met; **manual iOS VoiceOver/Safari QA and deployment verification are outstanding**. No personal security data entry is authorized by this milestone. **Phase 2b** (not this branch): a privacy-reviewed personal model builder, resilient storage/export and broader verification workflow.
