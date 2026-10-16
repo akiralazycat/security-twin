@@ -2,36 +2,41 @@
 
 **Explore, simulate and verify the resilience of your digital identity.**
 
-Security Twin is a mobile-first, local-first workspace in development for mapping account, device, passkey, password-manager and recovery dependencies. It helps individuals understand how a loss or compromise propagates, compare hypothetical security configurations, and verify actual improvements. A shared analysis engine is intended to support a future developer workspace and open public security commons.
+Security Twin is a local-first security dependency simulator. Its first web experience models a **fictional** account's smartphone, mailbox and recovery prerequisites. Visitors can switch failure scenarios, inspect the resulting graph and accessible route list, and compare a hypothetical independent security key — without an account or personal inputs.
 
-**Status (2026-10-17): Phase 1 pure engine implemented and verified locally (12 tests passed, typecheck passed); draft PR unmerged.** The repository does not yet contain a web application or a Vercel deployment.
+> **Status (2026-10-17):** Phase 1 engine merged to main. The Phase 2a guest atlas and Next.js shell are implemented and validated on branch `feat/phase-2-guest-atlas`. No production deployment is confirmed. Real user-specific graphs and encrypted persistence are not implemented.
 
-## Phase 1 engine (branch: `feat/phase-1-domain-engine`)
+## Run locally (Node 22 or 24)
 
-- `src/engine.ts` — schema, validation, fictional scenario evaluation, candidate creation and comparison. No network, storage, user credentials or vendor integrations.
-- `tests/engine.test.mjs` — synthetic scenarios, passed using Node.js 22's TypeScript type stripping.
-- `npm test` — run the offline tests (12 passed / 0 failed on 2026-10-17).
-- `npm run typecheck` — use TypeScript 5.8+ (install or provide `tsc` in the runner); passed on 2026-10-17.
-- See `docs/DOMAIN_MODEL.md` for assumptions, evidence semantics and Phase 2 visual direction.
+```sh
+npm ci
+npm test
+npm run typecheck
+npm run build
+npm run dev
+```
 
-The real-user security graph must not be persisted until the encryption/key-lifecycle threat review gate is resolved. The planned host for the later web interface is Vercel.
+The test suite covers 12 deterministic engine cases plus 6 guest demo scenarios. Last verified in Vercel's ephemeral cloud environment: **18/18 tests passed**, TypeScript check and production build passed. Chromium interaction/overflow checks passed at 320, 390, 768 and 1280 px. Real iPhone Safari/VoiceOver verification is still pending; see [Progress & handoff](docs/PROGRESS.md).
 
-## Project documents
+## Repository map
 
-- **[Master plan](docs/MASTER_PLAN.md)** — purpose, distinctive interaction design, core graph/scenario engine, user and developer experiences, public-interest commitments, privacy requirements, phased milestones and acceptance criteria.
-- **[Domain contract](docs/DOMAIN_MODEL.md)** — graph semantics, test fixtures, UX source references, Vercel assumption and privacy gates.
-- **[Progress & handoff](docs/PROGRESS.md)** — current implementation status, task checklist, dated decisions, work log, and precise next action.
+- `src/engine.ts` — pure typed three-valued access/recovery evaluator, candidate cloning and explanations.
+- `src/demo.ts` — fictional guest account example, scenario changes and hypothetical spare-key comparison.
+- `components/SecurityWorkspace.tsx` — interactive graph, accessible list, status detail, results and scenario controls.
+- `app/` — Next.js 15 App Router shell and Security Twin-specific responsive UI styles.
+- `tests/` — synthetic engine and guest fixture tests.
 
-## Design priorities
+No login, cloud database, AI request, secret import, real provider integration or user graph persistence is present in this release candidate. **Never enter passwords or recovery codes here.** Browser storage alone is not a safe encryption boundary: real data storage must pass the recorded threat review first.
 
-1. **Beyond AI chat:** an editable and persistent security model; interactive what-if simulations, structure comparison, and explicit verification.
-2. **Attack resistance + recoverability:** analysis considers adversarial reachability and the legitimate user's ability to regain access, separately.
-3. **Trust through evidence:** unknown, inferred, self-reported, configured and tested states are not conflated.
-4. **No vault or secret collection:** complements password managers and passkeys; does not custody passwords, private keys or recovery codes.
-5. **Guest / mobile / local first:** public core guidance should remain free; no mandatory cloud backend or GitHub Actions.
+## Documentation
 
-See the [next planned task](docs/PROGRESS.md#immediate-recommended-next-unit-of-work). Tests passed for the Phase 1 engine only; planned browser, provider or cloud features are neither verified nor shipped.
+- [Master plan](docs/MASTER_PLAN.md) — mission, product differentiation, Phases 0–6 and release gates.
+- [Domain model](docs/DOMAIN_MODEL.md) — graph semantics, actor distinction, known/unknown and scenario assumptions.
+- [Phase 2 design](docs/PHASE2_DESIGN.md) — UX reference principles, copy and accessibility acceptance, data-storage prohibition.
+- [Progress & handoff](docs/PROGRESS.md) — verified state, commits, tests, Vercel target and next action.
+
+**Hosting:** Vercel project `security-twin` exists in the configured team. Preview auto-deployments are disabled and the project is not yet connected to the Git repository; production is not yet shipped. No GitHub Actions needed.
 
 ## License
 
-See [LICENSE](LICENSE) (MIT for this repository's software/documentation as included). Future public datasets or third-party contributions may need separately evaluated terms.
+[MIT](LICENSE) for software in this repository. Future public datasets and third-party contributions require their own license review.
