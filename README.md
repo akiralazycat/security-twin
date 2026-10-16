@@ -4,14 +4,14 @@
 
 Security Twin is a mobile-first, local-first workspace in development for mapping account, device, passkey, password-manager and recovery dependencies. It helps individuals understand how a loss or compromise propagates, compare hypothetical security configurations, and verify actual improvements. A shared analysis engine is intended to support a future developer workspace and open public security commons.
 
-**Status (2026-10-17): Phase 1 pure engine implemented on a feature branch; tests not yet executed.** The repository does not yet contain a web application or a Vercel deployment.
+**Status (2026-10-17): Phase 1 pure engine implemented and verified locally (12 tests passed, typecheck passed); draft PR unmerged.** The repository does not yet contain a web application or a Vercel deployment.
 
 ## Phase 1 engine (branch: `feat/phase-1-domain-engine`)
 
 - `src/engine.ts` — schema, validation, fictional scenario evaluation, candidate creation and comparison. No network, storage, user credentials or vendor integrations.
-- `tests/engine.test.mjs` — synthetic scenarios, intended to run using Node.js 22's TypeScript type stripping.
-- `npm test` — run the offline tests (not yet executed during this session).
-- `npm run typecheck` — use TypeScript 5.8+ (install or provide `tsc` in the runner); not yet executed.
+- `tests/engine.test.mjs` — synthetic scenarios, passed using Node.js 22's TypeScript type stripping.
+- `npm test` — run the offline tests (12 passed / 0 failed on 2026-10-17).
+- `npm run typecheck` — use TypeScript 5.8+ (install or provide `tsc` in the runner); passed on 2026-10-17.
 - See `docs/DOMAIN_MODEL.md` for assumptions, evidence semantics and Phase 2 visual direction.
 
 The real-user security graph must not be persisted until the encryption/key-lifecycle threat review gate is resolved. The planned host for the later web interface is Vercel.
@@ -30,7 +30,7 @@ The real-user security graph must not be persisted until the encryption/key-life
 4. **No vault or secret collection:** complements password managers and passkeys; does not custody passwords, private keys or recovery codes.
 5. **Guest / mobile / local first:** public core guidance should remain free; no mandatory cloud backend or GitHub Actions.
 
-See the [next planned task](docs/PROGRESS.md#immediate-recommended-next-unit-of-work). Do not treat unexecuted tests or planned features as verified or shipped.
+See the [next planned task](docs/PROGRESS.md#immediate-recommended-next-unit-of-work). Tests passed for the Phase 1 engine only; planned browser, provider or cloud features are neither verified nor shipped.
 
 ## License
 
