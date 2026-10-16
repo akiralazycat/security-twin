@@ -1,16 +1,16 @@
 # Security Twin — Progress & Handoff
 
 > **Updated:** 2026-10-17 (JST)  
-> **Project status:** Phase 1 merged; Phase 2a fictional guest atlas cloud-verified and deployed behind Vercel Authentication (PR review pending)  
+> **Project status:** Phase 1 merged; Phase 2a guest atlas verified, merged into main and deployed behind Vercel Authentication  
 > **Authoritative intent:** [MASTER_PLAN.md](./MASTER_PLAN.md)  
-> **Branch:** `feat/phase-2-guest-atlas` (unmerged); Phase 1 [PR #1](https://github.com/akiralazycat/security-twin/pull/1) merged  
-> **Next focus:** Phase 2a PR review + Vercel deployment/real iPhone-Safari accessibility smoke; then review privacy gate for editable personal model
+> **Branch:** `main`; Phase 1 [PR #1](https://github.com/akiralazycat/security-twin/pull/1) and Phase 2a [PR #2](https://github.com/akiralazycat/security-twin/pull/2) merged  
+> **Next focus:** Verify protected live UI in real iPhone Safari / VoiceOver, then privacy architecture decision before editable personal graph
 
 ## Snapshot: current reality (2026-10-17 JST)
 
 **Phase 1:** deterministic typed evaluator (owner vs attacker, login vs recovery, three-valued unknowns, immutable candidate), fully verified and integrated into main at commit `15f100ff98cbc6ade9ec851442d03f77aa8a2b77` (squash merge PR #1).
 
-**Phase 2a (in feature branch):** registration-free, synthetic guest scenario explorer and comparison in a Next.js static-prerendered app. `src/demo.ts` holds an entirely fictional graph; `components/SecurityWorkspace.tsx` renders atlas, explanatory list, 4 scenarios, selected-node evidence and a hypothetical independent-key comparison. The site **does not request or persist personal security data**. Design and persistence boundary: [PHASE2_DESIGN.md](./PHASE2_DESIGN.md).
+**Phase 2a (merged into main):** registration-free, synthetic guest scenario explorer and comparison in a Next.js static-prerendered app. `src/demo.ts` holds an entirely fictional graph; `components/SecurityWorkspace.tsx` renders atlas, explanatory list, 4 scenarios, selected-node evidence and a hypothetical independent-key comparison. The site **does not request or persist personal security data**. Design and persistence boundary: [PHASE2_DESIGN.md](./PHASE2_DESIGN.md).
 
 **Verified:** Node 24.21.0 in an ephemeral Vercel cloud sandbox; `npm ci`, `npm test` **18 passed / 0 failed**, `npm run typecheck` **passed**, `npm run build` **passed** (static /). Chromium automated interaction and overflow checks at **320, 390, 768 and 1280 px** passed; no page JS errors or unexpected external browser requests in these runs. Dependency lockfile committed. **No GitHub Actions.**
 
@@ -81,9 +81,9 @@ Follow the master's gate criteria. Do not preemptively scaffold all future modul
 
 ## Immediate recommended next unit of work
 
-1. Review the Phase 2a branch/PR, especially engine-to-UI semantics, selected node explanations, small-screen geometry and clear warnings. Follow the complete [Phase 2 design](./PHASE2_DESIGN.md).
+1. **Completed:** Reviewed and squash-merged Phase 2a [PR #2](https://github.com/akiralazycat/security-twin/pull/2) into main, commit `348d86f76dfde4569df9943b760095a11def5d77`. Both Phase 1 and Phase 2a now live in main; Vercel's manually created deployment remains source-linked to the feature branch commit (same application code; documentation was subsequently updated).
 2. **Deployment complete:** protected Vercel URL `https://security-twin-sphereorb.vercel.app` built READY from `4d55b0df…` with deployment ID `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh`. It was requested as staging, but Vercel actually classified the deployment as `production`; default Vercel Authentication remains enabled. No unrelated domain was touched, and auto previews remain disabled.
-3. **Next manual validation:** open the deployed page on a real iPhone (Safari) and check 320/390 style, orientation, VoiceOver names, dark contrast, reduced motion and candidate/real-setting distinction; document remaining defects and fix together before claiming Phase 2 complete.
+3. **Next manual validation (PC not required):** open the deployed page on a real iPhone (Safari) and check 320/390 style, orientation, VoiceOver names, dark contrast, reduced motion and candidate/real-setting distinction; document remaining defects and fix together before claiming Phase 2 complete.
 4. **Do not expand into real accounts** until encrypted persistence / key recovery design has its own threat review. Afterwards decide whether to implement a simple local editor or a portable demo-first architecture.
 
 ## Handoff template (copy at the end of each completed task)
@@ -101,6 +101,15 @@ Follow the master's gate criteria. Do not preemptively scaffold all future modul
 Never imply an unexecuted test passed or an unmerged change shipped.
 
 ## Dated change log
+
+### 2026-10-17 — Phase 2a integrated into main
+
+- Phase 2a [PR #2](https://github.com/akiralazycat/security-twin/pull/2) changed from draft to ready, reviewed for scope and merged using squash; main commit `348d86f76dfde4569df9943b760095a11def5d77`.
+- The manual Vercel deployment is already **READY** and built from feature branch SHA `4d55b0df73895a7d2a78b3a40acbd6bb6e76ac34`; it does not auto-redeploy on a Git merge because this project has no Git link. Main has the same runtime code plus updated documentation and lockfile.
+- No extra Actions, preview builds or redundant Vercel deployment triggered by this merge.
+- Next action: complete **real iPhone Safari + VoiceOver** verification using `https://security-twin-sphereorb.vercel.app` (Vercel Auth protected), then decide encrypted persistence requirements for real account model, without broadening current work prematurely.
+
+
 
 ### 2026-10-17 — Phase 2a guest atlas (implemented, cloud-tested and protected deployment READY)
 
