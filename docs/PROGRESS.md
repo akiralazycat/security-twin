@@ -1,17 +1,17 @@
 # Security Twin — Progress & Handoff
 
 > **Updated:** 2026-10-17 (JST)  
-> **Project status:** Phase 1 domain design committed; engine work in progress  
+> **Project status:** Phase 1 engine and offline test suite implemented; verification pending  
 > **Authoritative intent:** [MASTER_PLAN.md](./MASTER_PLAN.md)  
 > **Branch:** `feat/phase-1-domain-engine` (unmerged)  
-> **Next focus:** Phase 1 — typed domain model and deterministic scenario evaluation
+> **Next focus:** Run offline tests and TypeScript check on the committed branch; review Phase 1 before starting UI
 
 ## Snapshot: current reality (do not infer completion from the plan)
 
-The repository was inspected on 2026-10-17. Before these documentation changes it contained only a short README and an MIT LICENSE. There was no application scaffold, runtime code, test suite, or deployed Security Twin observed in this repository.
+At planning baseline (2026-10-17), the repository had no code. The feature branch now has `src/engine.ts`, synthetic tests, Node scripts and the domain contract. There is still **no web app, persisted user model or deployed Security Twin**.
 
-**What is complete:** the conceptual master plan and handoff convention are documented.  
-**What is NOT complete:** schema, rules engine, graph UI, privacy-reviewed local storage, consumer diagnosis, developer tools, public catalog, tests, live product.
+**Implemented (not yet runtime-verified):** schema, three-valued owner/attacker evaluator, in-memory candidate/compare, model validation, explanation traces, and offline synthetic test source.  
+**Not completed:** executing tests/typecheck, UI, privacy-reviewed persistence, consumer diagnosis, developer tools, public catalog, deployed site.
 
 No tests or builds were run for this documentation-only change. No remote services, accounts, or user credentials were accessed or modified.
 
@@ -20,7 +20,7 @@ No tests or builds were run for this documentation-only change. No remote servic
 | Phase | State | Work / acceptance reference |
 | --- | --- | --- |
 | 0 — Foundation | **Complete (docs only)** | Master plan, scope, product intent, phased acceptance, handoff |
-| 1 — Model & engine | **Not started** | Typed graph; capability distinctions; evidence; deterministic scenarios; tests |
+| 1 — Model & engine | **Implemented; verification pending** | Typed graph; capability distinctions; evidence; deterministic scenarios; tests |
 | 2 — Consumer vertical slice | **Not started** | Guest experience; mobile atlas + list; 1–2 failure simulations |
 | 3 — Explore & verify | **Not started** | Candidate comparison; hypothetical/actual/verified distinctions |
 | 4 — Developer alpha | **Not started** | Expert workspace, policy, repeatable reports, local execution |
@@ -46,7 +46,7 @@ No tests or builds were run for this documentation-only change. No remote servic
 - [x] Define AND / OR / threshold prerequisites and cycles; explain three-valued unknown behavior and assumptions.
 - [x] Decide in-memory baseline/candidate version semantics and source/evidence metadata.
 - [x] Prepare synthetic fixtures for: lost phone, lost mailbox, compromised mailbox, separate spare key, shared failure domain, unknown recovery, malicious recovery path, and graph cycle.
-- [ ] Implement a **pure local library** computing outcomes and explanation paths from fixtures; choose repository structure only when actual code is needed.
+- [x] Implement a **pure local library** computing outcomes and explanation paths from fixtures; choose repository structure only when actual code is needed.
 - [ ] Run targeted local tests and record commands/results. No GitHub Actions required.
 - [ ] Document limitations and cases where a provider-specific conclusion is not justified.
 
@@ -80,9 +80,7 @@ Follow the master's gate criteria. Do not preemptively scaffold all future modul
 
 ## Immediate recommended next unit of work
 
-**One bounded Phase 1 task:** produce precise graph semantics and ~8 synthetic test scenarios, commit `docs/DOMAIN_MODEL.md`, update this file with the design decisions and commit SHA. Do not yet create a full web app or backend.
-
-Then implement the smallest engine that passes those fixtures. Review the complete unit together before expanding it.
+**Verify the Phase 1 branch** (`feat/phase-1-domain-engine`) with `npm test` and `npm run typecheck` on Node 22 + TypeScript 5.8+ (no project dependencies installed). Inspect failed tests, repair if needed, update this handoff with exact results, then review/integrate Phase 1. Do not start the web scaffold while the correctness gate is unverified. Vercel can be the host for Phase 2; none is configured yet.
 
 ## Handoff template (copy at the end of each completed task)
 
@@ -99,6 +97,16 @@ Then implement the smallest engine that passes those fixtures. Review the comple
 Never imply an unexecuted test passed or an unmerged change shipped.
 
 ## Dated change log
+
+### 2026-10-17 — Phase 1 evaluator + synthetic offline tests (implemented, unverified)
+
+- Branch: `feat/phase-1-domain-engine`; code: `src/engine.ts`; tests: `tests/engine.test.mjs`; commands: `npm test` and `npm run typecheck`.
+- Core evaluator commit: `65b6dc31b2f076cfea9ff1e8010c6ff6c888afa7`; test file commit: `2df5444db83ddb202a0dc94a11185eb3da1be5c5` (package/scripts committed immediately before).
+- Implemented typed owner/attacker capabilities, AND/OR/threshold prerequisites, fixed-point evaluation with unknown cycles, scenarios, trace output, candidate copies and diff. Tests cover lost phone/mailbox, compromise and additional checks, shared device, spare method, unknowns, cycles, thresholds, evidence, replay/validation and unrelated nodes (12 tests authored).
+- **Verification: not run.** Repository contents were re-fetched from GitHub, but the current execution environment could not resolve GitHub source URLs for local test execution. An attempted Vercel sandbox test route was blocked; no sandbox was created, no workflow triggered, and no claim of passing tests is made.
+- **Deployment: not started.** No Vercel project named `security-twin` found in accessible listing; no production/preview release. Next: execute both commands with a suitable cloud runtime or local checkout, fix any errors, then decide integration. Prefer cloud run to minimize PC use.
+
+
 
 ### 2026-10-17 — Phase 1 domain semantics (design complete; engine pending)
 
