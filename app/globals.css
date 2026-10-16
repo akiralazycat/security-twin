@@ -135,6 +135,15 @@ main { max-width: 1344px; padding: 0 28px; margin: 0 auto; }
 .status-unreachable { background: var(--coral); box-shadow: 0 0 0 4px rgba(235, 151, 144, .11); }
 .status-unknown { background: var(--amber); box-shadow: 0 0 0 4px rgba(239, 192, 132, .11); }
 .atlas-note { position: absolute; left: 10px; bottom: 18px; font-size: 10px; line-height: 1.5; color: var(--subtle); }
+.atlas-path-list { display: grid; gap: 0; margin: 0 -2px; border-top: 1px solid var(--line); }
+.path-list-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 11px; }
+.path-list-item:last-child { border-bottom: 0; }
+.path-list-item > span { display: inline-flex; align-items: center; gap: 12px; color: var(--muted); line-height: 1.6; }
+.path-list-item strong { flex-shrink: 0; font-size: 11px; font-weight: 580; color: var(--text); }
+.path-list-item .status-mark { width: 7px; height: 7px; }
+.attack-reachable { background: var(--coral); box-shadow: 0 0 0 4px rgba(235,151,144,.12); }
+.attack-unknown { background: var(--amber); box-shadow: 0 0 0 4px rgba(239,192,132,.12); }
+.attack-unreachable { background: #92aaae; box-shadow: 0 0 0 4px rgba(146,170,174,.10); }
 .atlas-footer { display: flex; gap: 20px; justify-content: space-between; align-items: flex-end; padding: 18px 0 19px; border-top: 1px solid var(--line); }
 .node-detail { min-width: 0; }
 .detail-kicker { display: block; color: var(--mint); font-size: 10px; letter-spacing: .07em; margin-bottom: 6px; }
