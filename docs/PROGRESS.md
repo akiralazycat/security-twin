@@ -3,7 +3,7 @@
 > **Updated:** 2026-10-17 (JST)  
 > **Project status:** Phase 1 engine and offline test suite implemented; verification pending  
 > **Authoritative intent:** [MASTER_PLAN.md](./MASTER_PLAN.md)  
-> **Branch:** `feat/phase-1-domain-engine` (unmerged)  
+> **Branch:** `feat/phase-1-domain-engine` (unmerged) · **Draft PR:** [#1](https://github.com/akiralazycat/security-twin/pull/1)  
 > **Next focus:** Run offline tests and TypeScript check on the committed branch; review Phase 1 before starting UI
 
 ## Snapshot: current reality (do not infer completion from the plan)
@@ -104,7 +104,7 @@ Never imply an unexecuted test passed or an unmerged change shipped.
 - Core evaluator commit: `65b6dc31b2f076cfea9ff1e8010c6ff6c888afa7`; test file commit: `2df5444db83ddb202a0dc94a11185eb3da1be5c5` (package/scripts committed immediately before).
 - Implemented typed owner/attacker capabilities, AND/OR/threshold prerequisites, fixed-point evaluation with unknown cycles, scenarios, trace output, candidate copies and diff. Tests cover lost phone/mailbox, compromise and additional checks, shared device, spare method, unknowns, cycles, thresholds, evidence, replay/validation and unrelated nodes (12 tests authored).
 - **Verification: not run.** Repository contents were re-fetched from GitHub, but the current execution environment could not resolve GitHub source URLs for local test execution. An attempted Vercel sandbox test route was blocked; no sandbox was created, no workflow triggered, and no claim of passing tests is made.
-- **Deployment: not started.** No Vercel project named `security-twin` found in accessible listing; no production/preview release. Next: execute both commands with a suitable cloud runtime or local checkout, fix any errors, then decide integration. Prefer cloud run to minimize PC use.
+- **Deployment: not started.** No Vercel project named `security-twin` found in accessible listing; no production/preview release. Updated `README.md` to match implementation status. Draft PR [#1](https://github.com/akiralazycat/security-twin/pull/1) opened for a single Phase 1 review gate; **do not merge pending verification**. Next: execute both commands with a suitable cloud runtime or local checkout, fix any errors, then decide integration. Prefer cloud run to minimize PC use.
 
 
 
