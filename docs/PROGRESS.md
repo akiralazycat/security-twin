@@ -1,27 +1,28 @@
 # Security Twin — Progress & Handoff
 
 > **Updated:** 2026-10-17 (JST)  
-> **Project status:** Phase 1 engine and offline test suite implemented and locally verified (not merged/shipped)  
+> **Project status:** Phase 1 merged; Phase 2a fictional guest atlas cloud-verified and deployed behind Vercel Authentication (PR review pending)  
 > **Authoritative intent:** [MASTER_PLAN.md](./MASTER_PLAN.md)  
-> **Branch:** `feat/phase-1-domain-engine` (unmerged) · **Draft PR:** [#1](https://github.com/akiralazycat/security-twin/pull/1)  
-> **Next focus:** Review Phase 1 PR; Phase 2 privacy/persistence decision and first stateless guest UI slice
+> **Branch:** `feat/phase-2-guest-atlas` (unmerged); Phase 1 [PR #1](https://github.com/akiralazycat/security-twin/pull/1) merged  
+> **Next focus:** Phase 2a PR review + Vercel deployment/real iPhone-Safari accessibility smoke; then review privacy gate for editable personal model
 
-## Snapshot: current reality (do not infer completion from the plan)
+## Snapshot: current reality (2026-10-17 JST)
 
-At planning baseline (2026-10-17), the repository had no code. The feature branch now has `src/engine.ts`, synthetic tests, Node scripts and the domain contract. There is still **no web app, persisted user model or deployed Security Twin**.
+**Phase 1:** deterministic typed evaluator (owner vs attacker, login vs recovery, three-valued unknowns, immutable candidate), fully verified and integrated into main at commit `15f100ff98cbc6ade9ec851442d03f77aa8a2b77` (squash merge PR #1).
 
-**Implemented and runtime-verified (2026-10-17):** schema, three-valued owner/attacker evaluator, in-memory candidate/compare, model validation, explanation traces, and offline synthetic test source.  
-**Not completed:** UI, privacy-reviewed persistence, consumer diagnosis, developer tools, public catalog, deployed site; Phase 1 has not been merged into main.
+**Phase 2a (in feature branch):** registration-free, synthetic guest scenario explorer and comparison in a Next.js static-prerendered app. `src/demo.ts` holds an entirely fictional graph; `components/SecurityWorkspace.tsx` renders atlas, explanatory list, 4 scenarios, selected-node evidence and a hypothetical independent-key comparison. The site **does not request or persist personal security data**. Design and persistence boundary: [PHASE2_DESIGN.md](./PHASE2_DESIGN.md).
 
-No tests or builds were run for this documentation-only change. No remote services, accounts, or user credentials were accessed or modified.
+**Verified:** Node 24.21.0 in an ephemeral Vercel cloud sandbox; `npm ci`, `npm test` **18 passed / 0 failed**, `npm run typecheck` **passed**, `npm run build` **passed** (static /). Chromium automated interaction and overflow checks at **320, 390, 768 and 1280 px** passed; no page JS errors or unexpected external browser requests in these runs. Dependency lockfile committed. **No GitHub Actions.**
+
+**Not done:** actual iOS Safari/VoiceOver manual audit, private-model editing, storage encryption/key lifecycle design, history/real verification workflow, developer studio and public catalog. Vercel project `security-twin` (`prj_aFaxHaHyNd4d7TW3Mwiir7oPamtl`) exists in team `team_sc8kOqVvtRrKPTwt2fSw6gWJ`; project is not Git-linked (manual deployment used). Preview deployments were disabled intentionally. **Protected Vercel deployment READY:** `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh`, URL `https://security-twin-sphereorb.vercel.app`, from feature branch commit `4d55b0df73895a7d2a78b3a40acbd6bb6e76ac34`, Vercel target `production`, Vercel Auth enabled.
 
 ## Roadmap state
 
 | Phase | State | Work / acceptance reference |
 | --- | --- | --- |
 | 0 — Foundation | **Complete (docs only)** | Master plan, scope, product intent, phased acceptance, handoff |
-| 1 — Model & engine | **Verified locally; PR open** | Typed graph; capability distinctions; evidence; deterministic scenarios; tests |
-| 2 — Consumer vertical slice | **Not started** | Guest experience; mobile atlas + list; 1–2 failure simulations |
+| 1 — Model & engine | **Complete / merged** | Typed graph; capability distinctions; evidence; deterministic scenarios; tests |
+| 2 — Consumer vertical slice | **Phase 2a deployed (protected); manual iOS QA + personal model pending** | Guest experience; mobile atlas + list; 1–2 failure simulations |
 | 3 — Explore & verify | **Not started** | Candidate comparison; hypothetical/actual/verified distinctions |
 | 4 — Developer alpha | **Not started** | Expert workspace, policy, repeatable reports, local execution |
 | 5 — Public Commons alpha | **Not started** | Curated sourced capabilities, correction protocol, public guides |
@@ -39,7 +40,7 @@ No tests or builds were run for this documentation-only change. No remote servic
 - [x] Establish progress and handoff record.
 - [x] Link navigation from root README.
 
-### Phase 1: model & deterministic engine — **NEXT**
+### Phase 1: model & deterministic engine — **COMPLETE**
 
 - [x] Write `docs/DOMAIN_MODEL.md` with entity/edge vocabulary and threat assumptions. Keep this as a precise design, not a second master plan.
 - [x] Define capability semantics for login, account recovery, authenticator re-enrollment, sensitive-account changes, and attacker takeover.
@@ -48,21 +49,21 @@ No tests or builds were run for this documentation-only change. No remote servic
 - [x] Prepare synthetic fixtures for: lost phone, lost mailbox, compromised mailbox, separate spare key, shared failure domain, unknown recovery, malicious recovery path, and graph cycle.
 - [x] Implement a **pure local library** computing outcomes and explanation paths from fixtures; choose repository structure only when actual code is needed.
 - [x] Run targeted local tests and record commands/results. No GitHub Actions required.
-- [ ] Document limitations and cases where a provider-specific conclusion is not justified.
+- [x] Document limitations and cases where a provider-specific conclusion is not justified.
 
 **Phase 1 exit gate:** reproducible tests pass; “unknown” is never treated as proven secure; hypothetical edits never mutate the baseline; results explain decisive prerequisites.
 
 ### Phase 2: smallest consumer experience
 
-- [ ] Decide local encryption/persistence threat model **before** storing any personal graph.
-- [ ] Implement registration-free scenario entry and guided, minimal model capture.
-- [ ] Build graph + accessible list from one data model with progressively revealed complexity.
-- [ ] Implement lost-phone case (plus mailbox loss if sufficiently supported) and current-vs-candidate views.
-- [ ] Distinguish planned, configured, and proven controls in wording and visuals.
-- [ ] Perform real mobile viewport and accessibility checks; do not assume graph-only UX works on phone.
-- [ ] Verify there is no secret ingestion, no external account mutation, and no unsupported claims.
+- [x] Decide to prohibit real-user persistence in Phase 2a; record data/threat-model gate in `docs/PHASE2_DESIGN.md`. Detailed encrypted storage/key lifecycle choice remains **open** before personal editing.
+- [x] Implement registration-free scenario switching over fictional example. **Real-user minimal model capture deferred** until the privacy gate.
+- [x] Build atlas + accessible route list from the shared evaluator (synthetic example).
+- [x] Implement lost-phone and mailbox scenarios, baseline and hypothetical key candidate.
+- [x] Label hypothetical/illustrative evidence and refuse to present proposed controls as configured or proven (full verification workflow deferred).
+- [x] Automated Chromium viewport/interaction checks at 320/390/768/1280px. [ ] **Actual iPhone Safari and VoiceOver manual audit outstanding.**
+- [x] Verify fictional fixture, no form for secrets, no external account mutation and explicit unsupported-provider disclaimer.
 
-**Phase 2 exit gate:** one complete mobile-first experience that demonstrates a user-discoverable common failure domain and safe next step.
+**Phase 2a alpha gate:** fictional mobile-first experience verified in headless Chromium at emulated widths, deployed to protected Vercel. Real iPhone Safari/VoiceOver manual check remains pending. **Full Phase 2 gate is not met:** personal graph configuration, privacy-reviewed storage and genuine user context remain deferred.
 
 ### Phases 3–6
 
@@ -80,7 +81,10 @@ Follow the master's gate criteria. Do not preemptively scaffold all future modul
 
 ## Immediate recommended next unit of work
 
-**Review Phase 1 PR [#1](https://github.com/akiralazycat/security-twin/pull/1) and integrate after review**, then begin Phase 2: record the persistence/encryption threat model decision before handling real user graphs, and implement a **stateless fictional guest** phone-loss scenario with accessible list and graph. Reference the design notes in `docs/DOMAIN_MODEL.md`; use Vercel as intended hosting target. Do not add real-user persistence until its gate is met.
+1. Review the Phase 2a branch/PR, especially engine-to-UI semantics, selected node explanations, small-screen geometry and clear warnings. Follow the complete [Phase 2 design](./PHASE2_DESIGN.md).
+2. **Deployment complete:** protected Vercel URL `https://security-twin-sphereorb.vercel.app` built READY from `4d55b0df…` with deployment ID `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh`. It was requested as staging, but Vercel actually classified the deployment as `production`; default Vercel Authentication remains enabled. No unrelated domain was touched, and auto previews remain disabled.
+3. **Next manual validation:** open the deployed page on a real iPhone (Safari) and check 320/390 style, orientation, VoiceOver names, dark contrast, reduced motion and candidate/real-setting distinction; document remaining defects and fix together before claiming Phase 2 complete.
+4. **Do not expand into real accounts** until encrypted persistence / key recovery design has its own threat review. Afterwards decide whether to implement a simple local editor or a portable demo-first architecture.
 
 ## Handoff template (copy at the end of each completed task)
 
@@ -97,6 +101,21 @@ Follow the master's gate criteria. Do not preemptively scaffold all future modul
 Never imply an unexecuted test passed or an unmerged change shipped.
 
 ## Dated change log
+
+### 2026-10-17 — Phase 2a guest atlas (implemented, cloud-tested and protected deployment READY)
+
+- Phase 1 PR [#1](https://github.com/akiralazycat/security-twin/pull/1) reviewed/merged to main; merge commit `15f100ff98cbc6ade9ec851442d03f77aa8a2b77`.
+- New branch `feat/phase-2-guest-atlas`. Added `docs/PHASE2_DESIGN.md`, `src/demo.ts`, `components/SecurityWorkspace.tsx`, Next.js `app/` files, CSS, security headers, example tests, `package-lock.json`, `.gitignore`.
+- UI direction: `core` copy standard; sizuq floating glass chrome, PluraThink restraint, Luneidea state cues and CurveMora progressive disclosure, adapted to graphite/teal security atlas. No generic site-build skill.
+- Data protection decision: fictional-only data; temporary React state; no real-account identities, passwords, passkeys or recovery codes, no persistence / analytics / server APIs. `docs/PHASE2_DESIGN.md` records why localStorage is NOT treated as encryption.
+- Created Vercel project `security-twin` in the known team; preview deployments disabled. Manually deployed commit `4d55b0df…`: deployment `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh` was **READY**, assigned `https://security-twin-sphereorb.vercel.app` and `https://security-twin.vercel.app`. Important: requested staging but Vercel returned target **production**. Vercel Auth is active for Vercel-managed URLs. Project is not linked to Git auto-deploy. No existing custom domain or customer data touched.
+- **Cloud tests (verified):** ephemeral Vercel sandbox checked out the actual branch at `097e9ca`; Node 24.21.0, `npm install` then `npm ci --no-audit --no-fund`, `npm test` = **18/18 PASS**, `npm run typecheck` = **PASS**, `NEXT_TELEMETRY_DISABLED=1 npm run build` = **PASS** (statically prerendered route). Later changes to this branch were the tested dependency lockfile, Node engine-range adjustment, `.gitignore` and docs; no runtime logic changed after the browser run.
+- **Chromium automation (verified):** width 320, 390, 768, 1280; test phone-loss login failure, independent-key hypothetical login success/delta, mailbox-loss recovery failure, compromised-mailbox unknown takeover, zero page errors/external requests, no horizontal document scroll.
+- Headless Chromium required installing runtime shared libraries inside an **ephemeral sandbox only**, never a production runtime dependency. That sandbox subsequently stopped; no periodic compute scheduled.
+- **Unverified:** actual iPhone Safari, VoiceOver/a11y expert audit and live app HTTP smoke through Vercel Authentication (READY confirms platform build/deployment only). No GitHub Actions used.
+- Next: PR review / integration; real-phone Safari/VoiceOver smoke on the protected deployment; progress update.
+
+
 
 ### 2026-10-17 — Phase 1 validation passed (no CI)
 
