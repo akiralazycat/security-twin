@@ -1,17 +1,17 @@
 # Security Twin — Progress & Handoff
 
 > **Updated:** 2026-10-17 (JST)  
-> **Project status:** Planning baseline documented; implementation not started  
+> **Project status:** Phase 1 engine and offline test suite implemented and locally verified (not merged/shipped)  
 > **Authoritative intent:** [MASTER_PLAN.md](./MASTER_PLAN.md)  
-> **Branch:** `main` (as of initial handoff)  
-> **Next focus:** Phase 1 — typed domain model and deterministic scenario evaluation
+> **Branch:** `feat/phase-1-domain-engine` (unmerged) · **Draft PR:** [#1](https://github.com/akiralazycat/security-twin/pull/1)  
+> **Next focus:** Review Phase 1 PR; Phase 2 privacy/persistence decision and first stateless guest UI slice
 
 ## Snapshot: current reality (do not infer completion from the plan)
 
-The repository was inspected on 2026-10-17. Before these documentation changes it contained only a short README and an MIT LICENSE. There was no application scaffold, runtime code, test suite, or deployed Security Twin observed in this repository.
+At planning baseline (2026-10-17), the repository had no code. The feature branch now has `src/engine.ts`, synthetic tests, Node scripts and the domain contract. There is still **no web app, persisted user model or deployed Security Twin**.
 
-**What is complete:** the conceptual master plan and handoff convention are documented.  
-**What is NOT complete:** schema, rules engine, graph UI, privacy-reviewed local storage, consumer diagnosis, developer tools, public catalog, tests, live product.
+**Implemented and runtime-verified (2026-10-17):** schema, three-valued owner/attacker evaluator, in-memory candidate/compare, model validation, explanation traces, and offline synthetic test source.  
+**Not completed:** UI, privacy-reviewed persistence, consumer diagnosis, developer tools, public catalog, deployed site; Phase 1 has not been merged into main.
 
 No tests or builds were run for this documentation-only change. No remote services, accounts, or user credentials were accessed or modified.
 
@@ -20,7 +20,7 @@ No tests or builds were run for this documentation-only change. No remote servic
 | Phase | State | Work / acceptance reference |
 | --- | --- | --- |
 | 0 — Foundation | **Complete (docs only)** | Master plan, scope, product intent, phased acceptance, handoff |
-| 1 — Model & engine | **Not started** | Typed graph; capability distinctions; evidence; deterministic scenarios; tests |
+| 1 — Model & engine | **Verified locally; PR open** | Typed graph; capability distinctions; evidence; deterministic scenarios; tests |
 | 2 — Consumer vertical slice | **Not started** | Guest experience; mobile atlas + list; 1–2 failure simulations |
 | 3 — Explore & verify | **Not started** | Candidate comparison; hypothetical/actual/verified distinctions |
 | 4 — Developer alpha | **Not started** | Expert workspace, policy, repeatable reports, local execution |
@@ -41,13 +41,13 @@ No tests or builds were run for this documentation-only change. No remote servic
 
 ### Phase 1: model & deterministic engine — **NEXT**
 
-- [ ] Write `docs/DOMAIN_MODEL.md` with entity/edge vocabulary and threat assumptions. Keep this as a precise design, not a second master plan.
-- [ ] Define capability semantics for login, account recovery, authenticator re-enrollment, sensitive-account changes, and attacker takeover.
-- [ ] Define AND / OR / threshold prerequisites and cycles; explain three-valued unknown behavior and assumptions.
-- [ ] Decide in-memory baseline/candidate version semantics and source/evidence metadata.
-- [ ] Prepare synthetic fixtures for: lost phone, lost mailbox, compromised mailbox, separate spare key, shared failure domain, unknown recovery, malicious recovery path, and graph cycle.
-- [ ] Implement a **pure local library** computing outcomes and explanation paths from fixtures; choose repository structure only when actual code is needed.
-- [ ] Run targeted local tests and record commands/results. No GitHub Actions required.
+- [x] Write `docs/DOMAIN_MODEL.md` with entity/edge vocabulary and threat assumptions. Keep this as a precise design, not a second master plan.
+- [x] Define capability semantics for login, account recovery, authenticator re-enrollment, sensitive-account changes, and attacker takeover.
+- [x] Define AND / OR / threshold prerequisites and cycles; explain three-valued unknown behavior and assumptions.
+- [x] Decide in-memory baseline/candidate version semantics and source/evidence metadata.
+- [x] Prepare synthetic fixtures for: lost phone, lost mailbox, compromised mailbox, separate spare key, shared failure domain, unknown recovery, malicious recovery path, and graph cycle.
+- [x] Implement a **pure local library** computing outcomes and explanation paths from fixtures; choose repository structure only when actual code is needed.
+- [x] Run targeted local tests and record commands/results. No GitHub Actions required.
 - [ ] Document limitations and cases where a provider-specific conclusion is not justified.
 
 **Phase 1 exit gate:** reproducible tests pass; “unknown” is never treated as proven secure; hypothetical edits never mutate the baseline; results explain decisive prerequisites.
@@ -80,9 +80,7 @@ Follow the master's gate criteria. Do not preemptively scaffold all future modul
 
 ## Immediate recommended next unit of work
 
-**One bounded Phase 1 task:** produce precise graph semantics and ~8 synthetic test scenarios, commit `docs/DOMAIN_MODEL.md`, update this file with the design decisions and commit SHA. Do not yet create a full web app or backend.
-
-Then implement the smallest engine that passes those fixtures. Review the complete unit together before expanding it.
+**Review Phase 1 PR [#1](https://github.com/akiralazycat/security-twin/pull/1) and integrate after review**, then begin Phase 2: record the persistence/encryption threat model decision before handling real user graphs, and implement a **stateless fictional guest** phone-loss scenario with accessible list and graph. Reference the design notes in `docs/DOMAIN_MODEL.md`; use Vercel as intended hosting target. Do not add real-user persistence until its gate is met.
 
 ## Handoff template (copy at the end of each completed task)
 
@@ -99,6 +97,34 @@ Then implement the smallest engine that passes those fixtures. Review the comple
 Never imply an unexecuted test passed or an unmerged change shipped.
 
 ## Dated change log
+
+### 2026-10-17 — Phase 1 validation passed (no CI)
+
+- Verified exact source copies by Git blob SHA against the branch: `src/engine.ts` = `26fee8c850f514542c3929d17a325e795a1fcd60`, `tests/engine.test.mjs` = `313c9fa2d64a55007794be2d8727b278c0067682`, `package.json` = `d964174e362300230ec1e14519f205dbf6b7324c`, `tsconfig.json` = `67058e7f625054d16850a8d623b3abab773805fb`.
+- Environment: Node v22.16.0, TypeScript 5.8.3. Executed `npm test`: **12 passed / 0 failed**; `npm run typecheck`: **passed** (exit 0). No external services, GitHub Actions, Vercel builds, provider accounts or secrets touched. No production deployment.
+- Phase 1 acceptance semantics exercised by synthetic tests. Remaining: code review and PR integration, then Phase 2. These results do **not** verify browser/mobile UI or real provider security policies.
+
+
+
+### 2026-10-17 — Phase 1 evaluator + synthetic offline tests (implemented)
+
+- Branch: `feat/phase-1-domain-engine`; code: `src/engine.ts`; tests: `tests/engine.test.mjs`; commands: `npm test` and `npm run typecheck`.
+- Core evaluator commit: `65b6dc31b2f076cfea9ff1e8010c6ff6c888afa7`; test file commit: `2df5444db83ddb202a0dc94a11185eb3da1be5c5` (package/scripts committed immediately before).
+- Implemented typed owner/attacker capabilities, AND/OR/threshold prerequisites, fixed-point evaluation with unknown cycles, scenarios, trace output, candidate copies and diff. Tests cover lost phone/mailbox, compromise and additional checks, shared device, spare method, unknowns, cycles, thresholds, evidence, replay/validation and unrelated nodes (12 tests authored).
+- **Initial verification obstacle:** repository source URL was inaccessible to the runtime; an attempted Vercel sandbox path was blocked. Subsequently, the source/test/package/tsconfig were reconstructed byte-for-byte in the runtime and all four Git blob hashes matched GitHub; actual offline tests/typecheck passed (see next entry). No GitHub Actions or sandbox created.
+- **Deployment: not started.** No Vercel project named `security-twin` found in accessible listing; no production/preview release. Updated `README.md`. Draft PR [#1](https://github.com/akiralazycat/security-twin/pull/1) opened for Phase 1 review; verification is now complete and only review/integration remains.
+
+
+
+### 2026-10-17 — Phase 1 domain semantics (design complete; engine pending)
+
+- Branch: `feat/phase-1-domain-engine`; documented schema, three-valued semantics, owner/attacker distinction, scenario assumptions, cycles, candidates and ten synthetic fixtures in `docs/DOMAIN_MODEL.md`.
+- Commit: `2a60d53a35a64f6d530768805c382a664fcdd6b6`.
+- Consulted `core` copy guidance and existing sizuq/PluraThink/Luneidea UI implementations. UI direction and Vercel-hosting assumption are now recorded in `docs/DOMAIN_MODEL.md` without creating a generic UI scaffold.
+- Tests/build/deploy: **not run** (design document only). Vercel project named `security-twin`: **not found** in accessible project listing. No production deployment or account changes.
+- Next: implement the pure, bounded TypeScript evaluator and deterministic synthetic tests; then run tests and record real results.
+
+
 
 ### 2026-10-17 — Initial planning baseline
 
