@@ -16,13 +16,14 @@ npm run build
 npm run dev
 ```
 
-The test suite covers 12 engine cases, 6 fictional examples and 6 abstract profile cases. Most recent cloud verification: **24/24 tests passed**, TypeScript check and production build passed. Chromium interaction/overflow checks passed at 320, 375, 390, 768 and 1280px; automated axe WCAG A/AA checks found **zero violations** across sample and session modes at 320/390/1280px, with some rules requiring manual review. Real iPhone Safari/VoiceOver verification is still pending; see [Progress & handoff](docs/PROGRESS.md).
+The test suite covers 12 engine cases, 6 fictional examples, 6 abstract profile cases, and 3 clarity cases. On this branch `npm test` is **27/27**, with typecheck and production build passing. The earlier Phase 2b cloud run was 24/24, including axe at 320/390/1280; axe was not rerun for the added simulation copy. Chromium on this branch confirmed the existing atlas still renders, lost-phone login stays unreachable, and the cascade plus three unperformed checks appear, with no storage and no horizontal overflow at 390px. Real iPhone Safari/VoiceOver verification is still pending; see [Progress & handoff](docs/PROGRESS.md).
 
 ## Repository map
 
 - `src/engine.ts` — pure typed three-valued access/recovery evaluator, candidate cloning and explanations.
 - `src/demo.ts` — fictional guest account example, scenario changes and hypothetical spare-key comparison.
 - `src/profile.ts` — pure session-only abstract user choices, tri-state paths, separate hypothetical candidate and explicit self-reported evidence.
+- `src/clarity.ts` — simulation cascade wording and the three unperformed real-world checks. It does not score or change the engine.
 - `components/SecurityWorkspace.tsx` — interactive graph, accessible list, status detail, results and scenario controls.
 - `app/` — Next.js 16 App Router shell and Security Twin-specific responsive UI styles.
 - `tests/` — synthetic engine and guest fixture tests.

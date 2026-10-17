@@ -1,1 +1,214 @@
-PLACEHOLDER
+# Security Twin — Progress & Handoff
+
+> **Updated:** 2026-10-17 (JST)  
+> **Project status:** Phase 1, Phase 2a, Phase 2b and Next.js security patch merged; protected Vercel production deployment READY  
+> **Authoritative intent:** [MASTER_PLAN.md](./MASTER_PLAN.md)  
+> **Branch:** `main`; merged PR #1 (engine), #2 (guest atlas), #4 (session model), #5 (dependency fix); original PR #3 closed as superseded  
+> **Next focus:** Real iPhone Safari/VoiceOver manual verification and secure personal graph storage design gate; no new unrelated features
+
+## Snapshot: current reality (2026-10-17 JST)
+
+**Phase 1:** deterministic typed evaluator (owner vs attacker, login vs recovery, three-valued unknowns, immutable candidate), fully verified and integrated into main at commit `15f100ff98cbc6ade9ec851442d03f77aa8a2b77` (squash merge PR #1).
+
+**Phase 2a (merged into main):** registration-free, synthetic guest scenario explorer and comparison in a Next.js static-prerendered app. `src/demo.ts` holds an entirely fictional graph; `components/SecurityWorkspace.tsx` renders atlas, explanatory list, 4 scenarios, selected-node evidence and a hypothetical independent-key comparison. The site **does not request or persist personal security data**. Design and persistence boundary: [PHASE2_DESIGN.md](./PHASE2_DESIGN.md).
+
+**Verified:** Node 24.21.0 in an ephemeral Vercel cloud sandbox; `npm ci`, `npm test` **18 passed / 0 failed**, `npm run typecheck` **passed**, `npm run build` **passed** (static /). Chromium automated interaction and overflow checks at **320, 390, 768 and 1280 px** passed; no page JS errors or unexpected external browser requests in these runs. Dependency lockfile committed. **No GitHub Actions.**
+
+**Not done:** actual iOS Safari/VoiceOver manual audit, private-model editing, storage encryption/key lifecycle design, history/real verification workflow, developer studio and public catalog. Vercel project `security-twin` (`prj_aFaxHaHyNd4d7TW3Mwiir7oPamtl`) exists in team `team_sc8kOqVvtRrKPTwt2fSw6gWJ`; project is not Git-linked (manual deployment used). Preview deployments were disabled intentionally. **Protected Vercel deployment READY:** `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh`, URL `https://security-twin-sphereorb.vercel.app`, from feature branch commit `4d55b0df73895a7d2a78b3a40acbd6bb6e76ac34`, Vercel target `production`, Vercel Auth enabled.
+
+**Phase 2b (merged via PR #4):** Anonymous two-question session-only abstract profile, explicitly conditional engine evaluation, no identifiers/secrets, no storage or API calls. The new protected Vercel deployment now runs Phase 2b and Next.js 16; deployed main commit `6f783176f50b78233ca7136f86480d983faf66e7`. Decision: [PHASE2B_PRIVACY.md](./PHASE2B_PRIVACY.md). Tests **24/24 passed**, typecheck/build passed; Chromium interaction at 320/375/390/768/1280px passed. axe-core reported zero WCAG 2/2.1 A/AA automated violations in six sample/session runs after a contrast adjustment (two manual-review/incomplete categories per run). Actual iPhone Safari and VoiceOver still not performed.
+
+## Roadmap state
+
+| Phase | State | Work / acceptance reference |
+| --- | --- | --- |
+| 0 — Foundation | **Complete (docs only)** | Master plan, scope, product intent, phased acceptance, handoff |
+| 1 — Model & engine | **Complete / merged** | Typed graph; capability distinctions; evidence; deterministic scenarios; tests |
+| 2 — Consumer vertical slice | **2a + session-only 2b protected deployment READY; actual iOS accessibility QA and persistent personal-model gate pending** | Guest experience; mobile atlas + list; 1–2 failure simulations |
+| 3 — Explore & verify | **Not started** | Candidate comparison; hypothetical/actual/verified distinctions |
+| 4 — Developer alpha | **Not started** | Expert workspace, policy, repeatable reports, local execution |
+| 5 — Public Commons alpha | **Not started** | Curated sourced capabilities, correction protocol, public guides |
+| 6 — Extensions | **Deferred** | AI editing, optional sync, CLI/MCP and continuous change intelligence |
+
+## Detailed checklist
+
+### Phase 0: documentation baseline
+
+- [x] Locate and inspect `security-twin` repository and initial content.
+- [x] Record product thesis and explicit non-goals.
+- [x] Describe separate consumer, developer, public surfaces with shared analysis engine.
+- [x] Prioritize interactive what-if, evidence states, candidate comparison, and verification.
+- [x] Record staged delivery gates, privacy constraints and release acceptance.
+- [x] Establish progress and handoff record.
+- [x] Link navigation from root README.
+
+### Phase 1: model & deterministic engine — **COMPLETE**
+
+- [x] Write `docs/DOMAIN_MODEL.md` with entity/edge vocabulary and threat assumptions. Keep this as a precise design, not a second master plan.
+- [x] Define capability semantics for login, account recovery, authenticator re-enrollment, sensitive-account changes, and attacker takeover.
+- [x] Define AND / OR / threshold prerequisites and cycles; explain three-valued unknown behavior and assumptions.
+- [x] Decide in-memory baseline/candidate version semantics and source/evidence metadata.
+- [x] Prepare synthetic fixtures for: lost phone, lost mailbox, compromised mailbox, separate spare key, shared failure domain, unknown recovery, malicious recovery path, and graph cycle.
+- [x] Implement a **pure local library** computing outcomes and explanation paths from fixtures; choose repository structure only when actual code is needed.
+- [x] Run targeted local tests and record commands/results. No GitHub Actions required.
+- [x] Document limitations and cases where a provider-specific conclusion is not justified.
+
+**Phase 1 exit gate:** reproducible tests pass; “unknown” is never treated as proven secure; hypothetical edits never mutate the baseline; results explain decisive prerequisites.
+
+### Phase 2: smallest consumer experience
+
+- [x] Decide to prohibit real-user persistence in Phase 2a; record data/threat-model gate in `docs/PHASE2_DESIGN.md`. Detailed encrypted storage/key lifecycle choice remains **open** before personal editing.
+- [x] Implement registration-free scenario switching over fictional example. **Real-user minimal model capture deferred** until the privacy gate.
+- [x] Build atlas + accessible route list from the shared evaluator (synthetic example).
+- [x] Implement lost-phone and mailbox scenarios, baseline and hypothetical key candidate.
+- [x] Label hypothetical/illustrative evidence and refuse to present proposed controls as configured or proven (full verification workflow deferred).
+- [x] Automated Chromium viewport/interaction checks at 320/390/768/1280px. [ ] **Actual iPhone Safari and VoiceOver manual audit outstanding.**
+- [x] Verify fictional fixture, no form for secrets, no external account mutation and explicit unsupported-provider disclaimer.
+
+**Phase 2a alpha gate:** fictional mobile-first experience verified in headless Chromium at emulated widths, deployed to protected Vercel. Real iPhone Safari/VoiceOver manual check remains pending. **Full Phase 2 gate is not met:** personal graph configuration, privacy-reviewed storage and genuine user context remain deferred.
+
+### Phases 3–6
+
+Follow the master's gate criteria. Do not preemptively scaffold all future modules. Add work items only when entering a phase.
+
+## Scope / guardrails to carry to every implementation session
+
+1. **Build differentiating interaction:** model → inspect → alter hypothetically → compare → perform manually → verify. A generic questionnaire or AI chat window is insufficient by itself.
+2. **Privacy:** never solicit or store authentication secrets. Local-only is the default; encrypted persistence design must be deliberate.
+3. **Honest evidence:** self-report, provider documentation, detected settings and tested results are different classes.
+4. **Correctness:** normal login success does not prove emergency recovery; attacker and legitimate-user capabilities differ.
+5. **Low overhead:** phone-first product; implementation can be driven via connected GitHub tools, not dependent on using a personal computer.
+6. **No automatic GitHub Actions:** local/manual tests first, no obligatory CI or preview build. Do not create or trigger workflows without a separate decision.
+7. **No uncontrolled scope expansion:** deliver Phase 1+2 before optional AI, cloud sync, or broad integrations.
+
+## Immediate recommended next unit of work
+
+1. **Completed:** Reviewed and squash-merged Phase 2a [PR #2](https://github.com/akiralazycat/security-twin/pull/2) into main, commit `348d86f76dfde4569df9943b760095a11def5d77`. Both Phase 1 and Phase 2a now live in main; Vercel's manually created deployment remains source-linked to the feature branch commit (same application code; documentation was subsequently updated).
+2. **Deployment complete:** protected `https://security-twin-sphereorb.vercel.app` is READY at deployment `dpl_HtfTZjyPNQ2dtWXznZ1Azuh5Fuuu`, built from `main` commit `6f783176f50b78233ca7136f86480d983faf66e7` with Next.js 16.4.2 and Phase 2b. Target is `production`, Vercel Authentication enabled. No unrelated domain or provider settings touched; automatic previews remain disabled.
+3. **Next manual validation (PC not required):** open the latest protected deployment on a real iPhone (Safari) and check 320/390 style, orientation, VoiceOver names, dark contrast, reduced motion and candidate/real-setting distinction; document remaining defects and fix together before claiming Phase 2 complete.
+4. **Session-only abstract assumptions are implemented** without identifiers, local browser storage or cloud record. **Do not expand into real account names, per-service model or persistence** until encryption/key recovery receives its own threat review. See [Phase 2b](./PHASE2B_PRIVACY.md).
+
+## Handoff template (copy at the end of each completed task)
+
+- **Date (JST):**
+- **Work item / phase:**
+- **Outcome:** planned / implemented / verified / blocked
+- **Changed paths / commit / PR:**
+- **Why / design decision:**
+- **Tests actually performed and results:** (write “not run” when not run)
+- **Known assumptions / remaining risk:**
+- **Plan changes (if any):**
+- **Next smallest action:**
+
+Never imply an unexecuted test passed or an unmerged change shipped.
+
+## Dated change log
+
+### 2026-10-17 — Simulation, cascade, and unperformed real-world checks
+
+- Commit `71ec0a7` on `main` replaced this handoff with the word `PLACEHOLDER`. Its message mentioned a UX plan, but the diff did not record one. This entry restores the handoff from parent `ef81fdab` and states the actual change.
+- Same page and same engine. No new route, no account names, no storage.
+- The existing result panel now says the view is a simulation, lists the cascade (login, recovery, and takeover stay separate sentences), and shows three real-world checks marked unperformed.
+- `npm test` includes `tests/clarity.test.mjs`. Browser check of this branch is recorded in the pull request, not as an iPhone VoiceOver pass.
+- Still open: real iPhone Safari/VoiceOver, and any persistence design.
+
+### 2026-10-17 — Phase 2b and Next.js security patch shipped to protected Vercel
+
+- [PR #4](https://github.com/akiralazycat/security-twin/pull/4) Phase 2b session-only anonymous editor squash-merged into main (`09bfd648d996d61b8b193906b7041e6d96c64ea7`).
+- [PR #5](https://github.com/akiralazycat/security-twin/pull/5) Next.js 16.4.2 / PostCSS 8.5.23 dependency remediation squash-merged into main (`6f783176f50b78233ca7136f86480d983faf66e7`). [Original PR #3](https://github.com/akiralazycat/security-twin/pull/3) closed as **superseded**, retaining its advisory research and reference material.
+- Explicit single manual Vercel deployment from `main` SHA `6f783176f50b78233ca7136f86480d983faf66e7` to project `prj_aFaxHaHyNd4d7TW3Mwiir7oPamtl` in the known team: deployment `dpl_HtfTZjyPNQ2dtWXznZ1Azuh5Fuuu` reached **READY**, target **production**, alias `https://security-twin-sphereorb.vercel.app` and `https://security-twin.vercel.app`.
+- Vercel Authentication on Vercel-managed deployment domains remains enabled. No custom domain change, unrelated project update, GitHub Actions or automatic previews; Git auto-deploy linkage remains unused. Original Phase 2a deployment is now superseded.
+- The exact application commit was validated *before deployment*: `npm ci`, `npm test` **24/24 PASS**, `npm run typecheck` PASS, Next.js 16 production build PASS, `npm audit --omit=dev --audit-level=moderate` **0 vulnerabilities**, dedicated-port Chromium HTTP 200, security headers, basic conditional session selection, zero axe WCAG automated violations at 320/390/1280px. The deployment itself was confirmed READY through Vercel API; **authenticated live HTTP smoke remains unperformed**.
+- Outstanding: **manual real-device Safari/VoiceOver QA** and cryptographic persistence/key lifecycle review before introducing identifiable accounts, personal recovery graphs or save/export. No claim that an unknown provider flow is guaranteed.
+
+
+
+### 2026-10-17 — Next.js / PostCSS dependency hardening (verified; not yet released)
+
+- Discovered concurrently open [PR #3](https://github.com/akiralazycat/security-twin/pull/3), which updates Next.js 15.5.27 → 16.4.2 to address inherited PostCSS advisories. Original PR predates Phase 2b; attempting a direct merge after Phase 2b would conflict. Reapplied its only relevant code changes (package + lockfile + TypeScript ambient config) on new branch `fix/next16-postcss-advisories` from updated main.
+- Baseline `npm audit --omit=dev --json` found `next`/`postcss` dependency findings (one high and one moderate package classification). After upgrade, `npm audit --omit=dev --audit-level=moderate`: **0 vulnerabilities**.
+- In isolated cloud sandbox: `npm ci`, `npm test` **24/24 PASS**, `npm run typecheck` PASS, `NEXT_TELEMETRY_DISABLED=1 npm run build` PASS on Next.js **16.4.2**. Existing Phase 2b source unchanged.
+- First in-place browser smoke was invalid due to stale server process/port when swapping Next.js builds in a shared sandbox. No code defect was inferred. **Retested in a fresh sandbox** using dedicated port 3129: Chromium at 320/390/1280 px **all PASS**, status 200, session mode switch and conditional result change, security headers (`nosniff`, `no-referrer`, `DENY`), no horizontal overflow/page JS errors/failed browser requests, zero axe WCAG A/AA automated violations.
+- This changelog entry describes the pre-merge checkpoint; the subsequent release entry above confirms the patched dependency is now deployed. No Actions or automatic previews.
+- Next: review/merge security PR and mark original PR #3 superseded without losing its advisory evidence. Manually deploy exact main ref into protected Vercel project, verify target and state. Real-device iPhone Safari + VoiceOver remains a separate manual gate.
+
+
+
+### 2026-10-17 — Phase 2b abstract session profile verified in cloud
+
+- Branch `feat/phase-2b-session-profile`. Recorded storage threat decision D2b-01 in `docs/PHASE2B_PRIVACY.md`: React memory only, no real account identifiers/secrets, no client or server storage, no unreviewed encrypted vault.
+- `src/profile.ts`: tri-state anonymous assumptions for independent alternate login and mailbox-independent recovery, self-reported evidence rather than verification, pure adapter reusing Phase 1 engine. `tests/profile.test.mjs`: six tests including 3 × 3 combinations, compromised-mailbox uncertainty, immutable baseline and hypothetical candidate, unknown and invalid state.
+- `components/SecurityWorkspace.tsx`: sample/session mode switch, two three-way response controls, explicit reset, local-only warning, accessible graph/list and explanation. `app/globals.css`: responsive controls and increased muted-text contrast.
+- Actual repository branch tested in Vercel disposable sandbox: `npm ci --no-audit --no-fund` PASS; `npm test` **24/24 PASS**; `npm run typecheck` PASS; `NEXT_TELEMETRY_DISABLED=1 npm run build` PASS.
+- Chromium automation at 320/375/390/768/1280px: all checks passed for demo → abstract switch, unknown/no/yes login outcomes, yes/unknown recovery paths, compromised-mailbox attacker outcome, added hypothetical spare key, baseline comparison, reset, reload, no page errors/unexpected external requests and no horizontal overflow.
+- Accessibility automated `axe-core` WCAG2/2.1 A/AA test found a low-contrast metadata label; fixed color `--subtle: #98aba9`, reran at 320/390/1280px for both modes: **0 automated violations**; two incomplete/manual checks in each run. No claims about VoiceOver or actual iPhone browser validation.
+- **Pending at this checkpoint:** PR review, merge, deployment, protected live HTTP verification and real iPhone Safari/VoiceOver. Previous Phase 2a Vercel READY is unaffected; no GitHub Actions or preview builds used.
+- Next smallest action: review scope and PR, integrate one unit, deploy exact main commit, then finish device/manual acceptance separately.
+
+
+
+### 2026-10-17 — Phase 2a integrated into main
+
+- Phase 2a [PR #2](https://github.com/akiralazycat/security-twin/pull/2) changed from draft to ready, reviewed for scope and merged using squash; main commit `348d86f76dfde4569df9943b760095a11def5d77`.
+- The manual Vercel deployment is already **READY** and built from feature branch SHA `4d55b0df73895a7d2a78b3a40acbd6bb6e76ac34`; it does not auto-redeploy on a Git merge because this project has no Git link. Main has the same runtime code plus updated documentation and lockfile.
+- No extra Actions, preview builds or redundant Vercel deployment triggered by this merge.
+- Next action: complete **real iPhone Safari + VoiceOver** verification using `https://security-twin-sphereorb.vercel.app` (Vercel Auth protected), then decide encrypted persistence requirements for real account model, without broadening current work prematurely.
+
+
+
+### 2026-10-17 — Phase 2a guest atlas (implemented, cloud-tested and protected deployment READY)
+
+- Phase 1 PR [#1](https://github.com/akiralazycat/security-twin/pull/1) reviewed/merged to main; merge commit `15f100ff98cbc6ade9ec851442d03f77aa8a2b77`.
+- New branch `feat/phase-2-guest-atlas`. Added `docs/PHASE2_DESIGN.md`, `src/demo.ts`, `components/SecurityWorkspace.tsx`, Next.js `app/` files, CSS, security headers, example tests, `package-lock.json`, `.gitignore`.
+- UI direction: `core` copy standard; sizuq floating glass chrome, PluraThink restraint, Luneidea state cues and CurveMora progressive disclosure, adapted to graphite/teal security atlas. No generic site-build skill.
+- Data protection decision: fictional-only data; temporary React state; no real-account identities, passwords, passkeys or recovery codes, no persistence / analytics / server APIs. `docs/PHASE2_DESIGN.md` records why localStorage is NOT treated as encryption.
+- Created Vercel project `security-twin` in the known team; preview deployments disabled. Manually deployed commit `4d55b0df…`: deployment `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh` was **READY**, assigned `https://security-twin-sphereorb.vercel.app` and `https://security-twin.vercel.app`. Important: requested staging but Vercel returned target **production**. Vercel Auth is active for Vercel-managed URLs. Project is not linked to Git auto-deploy. No existing custom domain or customer data touched.
+- **Cloud tests (verified):** ephemeral Vercel sandbox checked out the actual branch at `097e9ca`; Node 24.21.0, `npm install` then `npm ci --no-audit --no-fund`, `npm test` = **18/18 PASS**, `npm run typecheck` = **PASS**, `NEXT_TELEMETRY_DISABLED=1 npm run build` = **PASS** (statically prerendered route). Later changes to this branch were the tested dependency lockfile, Node engine-range adjustment, `.gitignore` and docs; no runtime logic changed after the browser run.
+- **Chromium automation (verified):** width 320, 390, 768, 1280; test phone-loss login failure, independent-key hypothetical login success/delta, mailbox-loss recovery failure, compromised-mailbox unknown takeover, zero page errors/external requests, no horizontal document scroll.
+- Headless Chromium required installing runtime shared libraries inside an **ephemeral sandbox only**, never a production runtime dependency. That sandbox subsequently stopped; no periodic compute scheduled.
+- **Unverified:** actual iPhone Safari, VoiceOver/a11y expert audit and live app HTTP smoke through Vercel Authentication (READY confirms platform build/deployment only). No GitHub Actions used.
+- Next: PR review / integration; real-phone Safari/VoiceOver smoke on the protected deployment; progress update.
+
+
+
+### 2026-10-17 — Phase 1 validation passed (no CI)
+
+- Verified exact source copies by Git blob SHA against the branch: `src/engine.ts` = `26fee8c850f514542c3929d17a325e795a1fcd60`, `tests/engine.test.mjs` = `313c9fa2d64a55007794be2d8727b278c0067682`, `package.json` = `d964174e362300230ec1e14519f205dbf6b7324c`, `tsconfig.json` = `67058e7f625054d16850a8d623b3abab773805fb`.
+- Environment: Node v22.16.0, TypeScript 5.8.3. Executed `npm test`: **12 passed / 0 failed**; `npm run typecheck`: **passed** (exit 0). No external services, GitHub Actions, Vercel builds, provider accounts or secrets touched. No production deployment.
+- Phase 1 acceptance semantics exercised by synthetic tests. Remaining: code review and PR integration, then Phase 2. These results do **not** verify browser/mobile UI or real provider security policies.
+
+
+
+### 2026-10-17 — Phase 1 evaluator + synthetic offline tests (implemented)
+
+- Branch: `feat/phase-1-domain-engine`; code: `src/engine.ts`; tests: `tests/engine.test.mjs`; commands: `npm test` and `npm run typecheck`.
+- Core evaluator commit: `65b6dc31b2f076cfea9ff1e8010c6ff6c888afa7`; test file commit: `2df5444db83ddb202a0dc94a11185eb3da1be5c5` (package/scripts committed immediately before).
+- Implemented typed owner/attacker capabilities, AND/OR/threshold prerequisites, fixed-point evaluation with unknown cycles, scenarios, trace output, candidate copies and diff. Tests cover lost phone/mailbox, compromise and additional checks, shared device, spare method, unknowns, cycles, thresholds, evidence, replay/validation and unrelated nodes (12 tests authored).
+- **Initial verification obstacle:** repository source URL was inaccessible to the runtime; an attempted Vercel sandbox path was blocked. Subsequently, the source/test/package/tsconfig were reconstructed byte-for-byte in the runtime and all four Git blob hashes matched GitHub; actual offline tests/typecheck passed (see next entry). No GitHub Actions or sandbox created.
+- **Deployment: not started.** No Vercel project named `security-twin` found in accessible listing; no production/preview release. Updated `README.md`. Draft PR [#1](https://github.com/akiralazycat/security-twin/pull/1) opened for Phase 1 review; verification is now complete and only review/integration remains.
+
+
+
+### 2026-10-17 — Phase 1 domain semantics (design complete; engine pending)
+
+- Branch: `feat/phase-1-domain-engine`; documented schema, three-valued semantics, owner/attacker distinction, scenario assumptions, cycles, candidates and ten synthetic fixtures in `docs/DOMAIN_MODEL.md`.
+- Commit: `2a60d53a35a64f6d530768805c382a664fcdd6b6`.
+- Consulted `core` copy guidance and existing sizuq/PluraThink/Luneidea UI implementations. UI direction and Vercel-hosting assumption are now recorded in `docs/DOMAIN_MODEL.md` without creating a generic UI scaffold.
+- Tests/build/deploy: **not run** (design document only). Vercel project named `security-twin`: **not found** in accessible project listing. No production deployment or account changes.
+- Next: implement the pure, bounded TypeScript evaluator and deterministic synthetic tests; then run tests and record real results.
+
+
+
+### 2026-10-17 — Initial planning baseline
+
+- Verified repository baseline: README + MIT license.
+- Added `docs/MASTER_PLAN.md` with product thesis, UX, differentiators beyond AI chat, domain engine, privacy, developer and public layers, staged acceptance and non-goals.
+- Master-plan commit: `06b0c1e4aeebbe237f35575c256de117b5bbbbcd`.
+- Added this `docs/PROGRESS.md` for status and future cross-device/AI handoff.
+- Updated README to point to the docs.
+- Tests/build/deploy: **not run** (documentation-only); existing user accounts: **not changed**.
+- Next: Phase 1 domain model + synthetic fixtures; defer implementation until the planned bounded scope is clear.
+
+---
+
+**Operating rule:** update this file after each meaningful implementation task, not only at milestones. Amend the master plan when intent changes; explain the reason here and keep Git history traceable.

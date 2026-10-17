@@ -6,6 +6,7 @@ import {
   type DemoScenarioKey,
 } from "../src/demo";
 import type { CapabilityResult, Status } from "../src/engine";
+import { cascadeLines, playbook } from "../src/clarity";
 import { INITIAL_SESSION_ANSWERS, evaluateSession, type SessionAnswers, type StatedAvailability } from "../src/profile";
 
 type NodeId = "phone" | "mailbox" | "spare-key" | "alternate-recovery" | "extra-check" | "account";
@@ -352,6 +353,7 @@ export default function SecurityWorkspace() {
               <div className="results-heading">
                 <span className="panel-index">EVALUATION / 01</span>
                 <h3 id="results-title">この状況で</h3>
+                <p className="sim-label">シミュレーションです。実際のアカウント設定は変わっていません。</p>
                 <span className="results-context">{activeScenario.label} · {proposed ? "追加を仮定" : sessionMode ? "自己申告の前提" : "元の構成"}</span>
               </div>
               <div className="primary-result" aria-live="polite" aria-atomic="true">
@@ -372,6 +374,11 @@ export default function SecurityWorkspace() {
                 <div><span>第三者による乗っ取り</span><strong>{attackerWord(takeover.status)}</strong></div>
                 <span className={"status-mark attack-status attack-" + takeover.status} aria-hidden="true" />
               </div>
+              <ol className="cascade" aria-label="仮定から結果までの波及">
+                {cascadeLines({ scenario, login: login.status, recovery: recovery.status, takeover: takeover.status }).map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ol>
               <div className="explanation">
                 <span className="panel-index">なぜこの結果に？</span>
                 <p>{sessionMode
@@ -401,9 +408,15 @@ export default function SecurityWorkspace() {
                     : "既知のログイン手段は使える想定です。ただし、復旧時に必要な追加確認の条件は不明です。"}</p>
               </div>
               <div className="next-step">
-                <span className="panel-index">次に確認すること</span>
-                <strong>{scenario === "lostMailbox" ? "メール以外の復旧経路" : scenario === "compromisedMailbox" ? "メールに依存する変更・復旧手続き" : "端末から独立した認証手段"}</strong>
-                <p>実際に利用するサービスの公式設定と復旧手順で、使える方法を確認してください。</p>
+                <span className="panel-index">現実に戻すときの確認 · 未実施</span>
+                <ol className="playbook">
+                  {playbook(scenario).map((step) => (
+                    <li key={step.title}>
+                      <strong>{step.title}</strong>
+                      <p>{step.detail}</p>
+                    </li>
+                  ))}
+                </ol>
               </div>
             </aside>
           </div>
