@@ -1,7 +1,7 @@
 # Phase 2b — Session-only configuration and storage threat decision
 
 > **Decision date:** 2026-10-17 (JST)  
-> **State:** scoped implementation work on `feat/phase-2b-session-profile`  
+> **State:** implemented and cloud-verified on `feat/phase-2b-session-profile`  
 > **Parent plans:** [MASTER_PLAN.md](./MASTER_PLAN.md), [DOMAIN_MODEL.md](./DOMAIN_MODEL.md), [PHASE2_DESIGN.md](./PHASE2_DESIGN.md)  
 > **Status log:** [PROGRESS.md](./PROGRESS.md)
 
@@ -57,13 +57,21 @@ The on-screen list and graph must derive status from **one** `EvaluationReport`;
 
 ## 5. Acceptance and handoff
 
-- [ ] Model adapter plus deterministic unit tests for 3 × 3 self-reported choices and phone/mailbox failure cases.
-- [ ] Mobile-first scenario controls in the existing Security Atlas; fictional demo remains usable unchanged.
-- [ ] Explicit reset and visible memory-only caveat. No identifiers or secrets solicited.
-- [ ] Accessible keyboard controls, label state, screen-reader status, narrow-width overflow check.
-- [ ] Run `npm ci && npm test && npm run typecheck && npm run build` in cloud (no GitHub Actions) and browser scenario checks if the runtime allows.
-- [ ] Record PR/commit, exact command outputs, deploy status separately in [PROGRESS.md](./PROGRESS.md).
+- [x] Model adapter plus deterministic unit tests for 3 × 3 self-reported choices and phone/mailbox failure cases.
+- [x] Mobile-first scenario controls in the existing Security Atlas; fictional demo remains usable unchanged.
+- [x] Explicit reset and visible memory-only caveat. No identifiers or secrets solicited.
+- [x] Accessible keyboard controls, label state, screen-reader status, narrow-width overflow check (automated Chromium and axe; manual VoiceOver still pending).
+- [x] Cloud `npm ci && npm test && npm run typecheck && npm run build` passed (24/24 tests) and browser scenario checks passed; no GitHub Actions.
+- [x] Record tested head, exact commands and deployment status (not yet deployed at this checkpoint) in [PROGRESS.md](./PROGRESS.md).
 
 **Not in this branch:** account lists/identifiers, verified provider guidance, export, import, local encrypted database, biometric unlock, cloud sync, end-to-end encryption, AI diagnostics, auto-account changes, broad security score.
 
 **Manual QA still open from Phase 2a:** real Safari/iPhone + VoiceOver; simulated Chromium viewports alone do not resolve it. Do not invent having performed a manual device session.
+
+## 6. 2026-10-17 verification record
+
+- Checked real repository branch head `4f6241666672d7283bb48faabf0b66b115b935c5` in a disposable Vercel sandbox; no GitHub Actions.
+- `npm ci --no-audit --no-fund`: passed; `npm test`: **24/24 passed** (12 engine + 6 demo + 6 session-model tests). TypeScript `npm run typecheck`: passed. `NEXT_TELEMETRY_DISABLED=1 npm run build`: passed with static root route.
+- Headless Chromium interaction at 320/375/390/768/1280px: **passed** all scenarios for unknown/no/yes login, yes/unknown recovery, attacker unknown, hypothetical key comparison, reset, reload, zero console errors/unexpected external requests and no horizontal document overflow.
+- Accessibility using `axe-core` WCAG 2 A/AA + 2.1 A/AA tags at 320/390/1280px in both sample and session modes. Initial check found a single contrast issue on muted text; fixed by increasing `--subtle` luminance to `#98aba9`; **zero automated violations across six reruns** (24 passing rules, two manual-review/incomplete findings per run). This is **not** a manual screen-reader or actual Safari/iPhone certification.
+- No analytics, external API integrations, real account inputs, personal identifier persistence or cryptographic vault. React state only. No Vercel deployment of this branch at this checkpoint; Phase 2a previous protected deployment stays unchanged until explicit release.
