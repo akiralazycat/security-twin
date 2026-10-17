@@ -1,7 +1,7 @@
 # Phase 2b — Session-only configuration and storage threat decision
 
 > **Decision date:** 2026-10-17 (JST)  
-> **State:** implemented and cloud-verified on `feat/phase-2b-session-profile`  
+> **State:** implemented, cloud-verified and deployed behind Vercel Authentication; PR #4 merged into main  
 > **Parent plans:** [MASTER_PLAN.md](./MASTER_PLAN.md), [DOMAIN_MODEL.md](./DOMAIN_MODEL.md), [PHASE2_DESIGN.md](./PHASE2_DESIGN.md)  
 > **Status log:** [PROGRESS.md](./PROGRESS.md)
 
@@ -74,4 +74,4 @@ The on-screen list and graph must derive status from **one** `EvaluationReport`;
 - `npm ci --no-audit --no-fund`: passed; `npm test`: **24/24 passed** (12 engine + 6 demo + 6 session-model tests). TypeScript `npm run typecheck`: passed. `NEXT_TELEMETRY_DISABLED=1 npm run build`: passed with static root route.
 - Headless Chromium interaction at 320/375/390/768/1280px: **passed** all scenarios for unknown/no/yes login, yes/unknown recovery, attacker unknown, hypothetical key comparison, reset, reload, zero console errors/unexpected external requests and no horizontal document overflow.
 - Accessibility using `axe-core` WCAG 2 A/AA + 2.1 A/AA tags at 320/390/1280px in both sample and session modes. Initial check found a single contrast issue on muted text; fixed by increasing `--subtle` luminance to `#98aba9`; **zero automated violations across six reruns** (24 passing rules, two manual-review/incomplete findings per run). This is **not** a manual screen-reader or actual Safari/iPhone certification.
-- No analytics, external API integrations, real account inputs, personal identifier persistence or cryptographic vault. React state only. No Vercel deployment of this branch at this checkpoint; Phase 2a previous protected deployment stays unchanged until explicit release.
+- No analytics, external API integrations, real account inputs, personal identifier persistence or cryptographic vault. React state only. Original checkpoint was pre-release. It is now integrated through PR #4 and deployed with PR #5's Next.js update at Vercel deployment `dpl_HtfTZjyPNQ2dtWXznZ1Azuh5Fuuu` (READY, protected). Actual iPhone Safari/VoiceOver and authenticated live HTTP checks remain incomplete.
