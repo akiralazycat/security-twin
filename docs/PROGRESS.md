@@ -1,10 +1,10 @@
 # Security Twin — Progress & Handoff
 
 > **Updated:** 2026-10-17 (JST)  
-> **Project status:** Phase 1, Phase 2a, Phase 2b merged; Next.js 16 security upgrade verified on separate branch (pending PR)  
+> **Project status:** Phase 1, Phase 2a, Phase 2b and Next.js security patch merged; protected Vercel production deployment READY  
 > **Authoritative intent:** [MASTER_PLAN.md](./MASTER_PLAN.md)  
-> **Branch:** `fix/next16-postcss-advisories` (awaiting PR); Phase 1 PR #1, Phase 2a PR #2 and Phase 2b PR #4 merged into `main`  
-> **Next focus:** Integrate verified Next.js security update, deploy latest main to protected Vercel, and leave real iPhone Safari / VoiceOver audit explicit as unverified
+> **Branch:** `main`; merged PR #1 (engine), #2 (guest atlas), #4 (session model), #5 (dependency fix); original PR #3 closed as superseded  
+> **Next focus:** Real iPhone Safari/VoiceOver manual verification and secure personal graph storage design gate; no new unrelated features
 
 ## Snapshot: current reality (2026-10-17 JST)
 
@@ -16,7 +16,7 @@
 
 **Not done:** actual iOS Safari/VoiceOver manual audit, private-model editing, storage encryption/key lifecycle design, history/real verification workflow, developer studio and public catalog. Vercel project `security-twin` (`prj_aFaxHaHyNd4d7TW3Mwiir7oPamtl`) exists in team `team_sc8kOqVvtRrKPTwt2fSw6gWJ`; project is not Git-linked (manual deployment used). Preview deployments were disabled intentionally. **Protected Vercel deployment READY:** `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh`, URL `https://security-twin-sphereorb.vercel.app`, from feature branch commit `4d55b0df73895a7d2a78b3a40acbd6bb6e76ac34`, Vercel target `production`, Vercel Auth enabled.
 
-**Phase 2b (merged via PR #4):** Anonymous two-question session-only abstract profile, explicitly conditional engine evaluation, no identifiers/secrets, no storage or API calls. The previous protected Vercel deployment **still runs Phase 2a**; do not imply Phase 2b was released. Decision: [PHASE2B_PRIVACY.md](./PHASE2B_PRIVACY.md). Tests **24/24 passed**, typecheck/build passed; Chromium interaction at 320/375/390/768/1280px passed. axe-core reported zero WCAG 2/2.1 A/AA automated violations in six sample/session runs after a contrast adjustment (two manual-review/incomplete categories per run). Actual iPhone Safari and VoiceOver still not performed.
+**Phase 2b (merged via PR #4):** Anonymous two-question session-only abstract profile, explicitly conditional engine evaluation, no identifiers/secrets, no storage or API calls. The new protected Vercel deployment now runs Phase 2b and Next.js 16; deployed main commit `6f783176f50b78233ca7136f86480d983faf66e7`. Decision: [PHASE2B_PRIVACY.md](./PHASE2B_PRIVACY.md). Tests **24/24 passed**, typecheck/build passed; Chromium interaction at 320/375/390/768/1280px passed. axe-core reported zero WCAG 2/2.1 A/AA automated violations in six sample/session runs after a contrast adjustment (two manual-review/incomplete categories per run). Actual iPhone Safari and VoiceOver still not performed.
 
 ## Roadmap state
 
@@ -24,7 +24,7 @@
 | --- | --- | --- |
 | 0 — Foundation | **Complete (docs only)** | Master plan, scope, product intent, phased acceptance, handoff |
 | 1 — Model & engine | **Complete / merged** | Typed graph; capability distinctions; evidence; deterministic scenarios; tests |
-| 2 — Consumer vertical slice | **2a protected release READY; 2b merged in main; secure dependency update and redeploy pending; iOS QA open** | Guest experience; mobile atlas + list; 1–2 failure simulations |
+| 2 — Consumer vertical slice | **2a + session-only 2b protected deployment READY; actual iOS accessibility QA and persistent personal-model gate pending** | Guest experience; mobile atlas + list; 1–2 failure simulations |
 | 3 — Explore & verify | **Not started** | Candidate comparison; hypothetical/actual/verified distinctions |
 | 4 — Developer alpha | **Not started** | Expert workspace, policy, repeatable reports, local execution |
 | 5 — Public Commons alpha | **Not started** | Curated sourced capabilities, correction protocol, public guides |
@@ -84,8 +84,8 @@ Follow the master's gate criteria. Do not preemptively scaffold all future modul
 ## Immediate recommended next unit of work
 
 1. **Completed:** Reviewed and squash-merged Phase 2a [PR #2](https://github.com/akiralazycat/security-twin/pull/2) into main, commit `348d86f76dfde4569df9943b760095a11def5d77`. Both Phase 1 and Phase 2a now live in main; Vercel's manually created deployment remains source-linked to the feature branch commit (same application code; documentation was subsequently updated).
-2. **Deployment complete:** protected Vercel URL `https://security-twin-sphereorb.vercel.app` built READY from `4d55b0df…` with deployment ID `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh`. It was requested as staging, but Vercel actually classified the deployment as `production`; default Vercel Authentication remains enabled. No unrelated domain was touched, and auto previews remain disabled.
-3. **Next manual validation (PC not required):** open the deployed page on a real iPhone (Safari) and check 320/390 style, orientation, VoiceOver names, dark contrast, reduced motion and candidate/real-setting distinction; document remaining defects and fix together before claiming Phase 2 complete.
+2. **Deployment complete:** protected `https://security-twin-sphereorb.vercel.app` is READY at deployment `dpl_HtfTZjyPNQ2dtWXznZ1Azuh5Fuuu`, built from `main` commit `6f783176f50b78233ca7136f86480d983faf66e7` with Next.js 16.4.2 and Phase 2b. Target is `production`, Vercel Authentication enabled. No unrelated domain or provider settings touched; automatic previews remain disabled.
+3. **Next manual validation (PC not required):** open the latest protected deployment on a real iPhone (Safari) and check 320/390 style, orientation, VoiceOver names, dark contrast, reduced motion and candidate/real-setting distinction; document remaining defects and fix together before claiming Phase 2 complete.
 4. **Session-only abstract assumptions are implemented** without identifiers, local browser storage or cloud record. **Do not expand into real account names, per-service model or persistence** until encryption/key recovery receives its own threat review. See [Phase 2b](./PHASE2B_PRIVACY.md).
 
 ## Handoff template (copy at the end of each completed task)
@@ -104,13 +104,24 @@ Never imply an unexecuted test passed or an unmerged change shipped.
 
 ## Dated change log
 
+### 2026-10-17 — Phase 2b and Next.js security patch shipped to protected Vercel
+
+- [PR #4](https://github.com/akiralazycat/security-twin/pull/4) Phase 2b session-only anonymous editor squash-merged into main (`09bfd648d996d61b8b193906b7041e6d96c64ea7`).
+- [PR #5](https://github.com/akiralazycat/security-twin/pull/5) Next.js 16.4.2 / PostCSS 8.5.23 dependency remediation squash-merged into main (`6f783176f50b78233ca7136f86480d983faf66e7`). [Original PR #3](https://github.com/akiralazycat/security-twin/pull/3) closed as **superseded**, retaining its advisory research and reference material.
+- Explicit single manual Vercel deployment from `main` SHA `6f783176f50b78233ca7136f86480d983faf66e7` to project `prj_aFaxHaHyNd4d7TW3Mwiir7oPamtl` in the known team: deployment `dpl_HtfTZjyPNQ2dtWXznZ1Azuh5Fuuu` reached **READY**, target **production**, alias `https://security-twin-sphereorb.vercel.app` and `https://security-twin.vercel.app`.
+- Vercel Authentication on Vercel-managed deployment domains remains enabled. No custom domain change, unrelated project update, GitHub Actions or automatic previews; Git auto-deploy linkage remains unused. Original Phase 2a deployment is now superseded.
+- The exact application commit was validated *before deployment*: `npm ci`, `npm test` **24/24 PASS**, `npm run typecheck` PASS, Next.js 16 production build PASS, `npm audit --omit=dev --audit-level=moderate` **0 vulnerabilities**, dedicated-port Chromium HTTP 200, security headers, basic conditional session selection, zero axe WCAG automated violations at 320/390/1280px. The deployment itself was confirmed READY through Vercel API; **authenticated live HTTP smoke remains unperformed**.
+- Outstanding: **manual real-device Safari/VoiceOver QA** and cryptographic persistence/key lifecycle review before introducing identifiable accounts, personal recovery graphs or save/export. No claim that an unknown provider flow is guaranteed.
+
+
+
 ### 2026-10-17 — Next.js / PostCSS dependency hardening (verified; not yet released)
 
 - Discovered concurrently open [PR #3](https://github.com/akiralazycat/security-twin/pull/3), which updates Next.js 15.5.27 → 16.4.2 to address inherited PostCSS advisories. Original PR predates Phase 2b; attempting a direct merge after Phase 2b would conflict. Reapplied its only relevant code changes (package + lockfile + TypeScript ambient config) on new branch `fix/next16-postcss-advisories` from updated main.
 - Baseline `npm audit --omit=dev --json` found `next`/`postcss` dependency findings (one high and one moderate package classification). After upgrade, `npm audit --omit=dev --audit-level=moderate`: **0 vulnerabilities**.
 - In isolated cloud sandbox: `npm ci`, `npm test` **24/24 PASS**, `npm run typecheck` PASS, `NEXT_TELEMETRY_DISABLED=1 npm run build` PASS on Next.js **16.4.2**. Existing Phase 2b source unchanged.
 - First in-place browser smoke was invalid due to stale server process/port when swapping Next.js builds in a shared sandbox. No code defect was inferred. **Retested in a fresh sandbox** using dedicated port 3129: Chromium at 320/390/1280 px **all PASS**, status 200, session mode switch and conditional result change, security headers (`nosniff`, `no-referrer`, `DENY`), no horizontal overflow/page JS errors/failed browser requests, zero axe WCAG A/AA automated violations.
-- New release not yet made: protected Vercel deployment `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh` still runs the older Phase 2a commit. Do not claim patched dependency is live until Git integration + deployment READY verified. No Actions or automatic previews.
+- This changelog entry describes the pre-merge checkpoint; the subsequent release entry above confirms the patched dependency is now deployed. No Actions or automatic previews.
 - Next: review/merge security PR and mark original PR #3 superseded without losing its advisory evidence. Manually deploy exact main ref into protected Vercel project, verify target and state. Real-device iPhone Safari + VoiceOver remains a separate manual gate.
 
 
