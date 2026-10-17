@@ -1,10 +1,10 @@
 # Security Twin — Progress & Handoff
 
 > **Updated:** 2026-10-17 (JST)  
-> **Project status:** Phase 1 and Phase 2a merged; Phase 2b session-only editor implemented and cloud-tested on feature branch  
+> **Project status:** Phase 1, Phase 2a, Phase 2b merged; Next.js 16 security upgrade verified on separate branch (pending PR)  
 > **Authoritative intent:** [MASTER_PLAN.md](./MASTER_PLAN.md)  
-> **Branch:** `feat/phase-2b-session-profile` (awaiting PR); Phase 1 PR #1 and Phase 2a PR #2 merged into `main`  
-> **Next focus:** Review Phase 2b PR and merge after scoped test gate; update protected Vercel release; real iPhone Safari / VoiceOver audit remains for next manual check
+> **Branch:** `fix/next16-postcss-advisories` (awaiting PR); Phase 1 PR #1, Phase 2a PR #2 and Phase 2b PR #4 merged into `main`  
+> **Next focus:** Integrate verified Next.js security update, deploy latest main to protected Vercel, and leave real iPhone Safari / VoiceOver audit explicit as unverified
 
 ## Snapshot: current reality (2026-10-17 JST)
 
@@ -16,7 +16,7 @@
 
 **Not done:** actual iOS Safari/VoiceOver manual audit, private-model editing, storage encryption/key lifecycle design, history/real verification workflow, developer studio and public catalog. Vercel project `security-twin` (`prj_aFaxHaHyNd4d7TW3Mwiir7oPamtl`) exists in team `team_sc8kOqVvtRrKPTwt2fSw6gWJ`; project is not Git-linked (manual deployment used). Preview deployments were disabled intentionally. **Protected Vercel deployment READY:** `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh`, URL `https://security-twin-sphereorb.vercel.app`, from feature branch commit `4d55b0df73895a7d2a78b3a40acbd6bb6e76ac34`, Vercel target `production`, Vercel Auth enabled.
 
-**Phase 2b (verified on feature branch):** Anonymous two-question session-only abstract profile, explicitly conditional engine evaluation, no identifiers/secrets, no storage or API calls. The previous protected Vercel deployment **still runs Phase 2a**; do not imply Phase 2b was released. Decision: [PHASE2B_PRIVACY.md](./PHASE2B_PRIVACY.md). Tests **24/24 passed**, typecheck/build passed; Chromium interaction at 320/375/390/768/1280px passed. axe-core reported zero WCAG 2/2.1 A/AA automated violations in six sample/session runs after a contrast adjustment (two manual-review/incomplete categories per run). Actual iPhone Safari and VoiceOver still not performed.
+**Phase 2b (merged via PR #4):** Anonymous two-question session-only abstract profile, explicitly conditional engine evaluation, no identifiers/secrets, no storage or API calls. The previous protected Vercel deployment **still runs Phase 2a**; do not imply Phase 2b was released. Decision: [PHASE2B_PRIVACY.md](./PHASE2B_PRIVACY.md). Tests **24/24 passed**, typecheck/build passed; Chromium interaction at 320/375/390/768/1280px passed. axe-core reported zero WCAG 2/2.1 A/AA automated violations in six sample/session runs after a contrast adjustment (two manual-review/incomplete categories per run). Actual iPhone Safari and VoiceOver still not performed.
 
 ## Roadmap state
 
@@ -24,7 +24,7 @@
 | --- | --- | --- |
 | 0 — Foundation | **Complete (docs only)** | Master plan, scope, product intent, phased acceptance, handoff |
 | 1 — Model & engine | **Complete / merged** | Typed graph; capability distinctions; evidence; deterministic scenarios; tests |
-| 2 — Consumer vertical slice | **2a deployed; 2b session-only abstract model verified on branch; iOS QA pending** | Guest experience; mobile atlas + list; 1–2 failure simulations |
+| 2 — Consumer vertical slice | **2a protected release READY; 2b merged in main; secure dependency update and redeploy pending; iOS QA open** | Guest experience; mobile atlas + list; 1–2 failure simulations |
 | 3 — Explore & verify | **Not started** | Candidate comparison; hypothetical/actual/verified distinctions |
 | 4 — Developer alpha | **Not started** | Expert workspace, policy, repeatable reports, local execution |
 | 5 — Public Commons alpha | **Not started** | Curated sourced capabilities, correction protocol, public guides |
@@ -103,6 +103,17 @@ Follow the master's gate criteria. Do not preemptively scaffold all future modul
 Never imply an unexecuted test passed or an unmerged change shipped.
 
 ## Dated change log
+
+### 2026-10-17 — Next.js / PostCSS dependency hardening (verified; not yet released)
+
+- Discovered concurrently open [PR #3](https://github.com/akiralazycat/security-twin/pull/3), which updates Next.js 15.5.27 → 16.4.2 to address inherited PostCSS advisories. Original PR predates Phase 2b; attempting a direct merge after Phase 2b would conflict. Reapplied its only relevant code changes (package + lockfile + TypeScript ambient config) on new branch `fix/next16-postcss-advisories` from updated main.
+- Baseline `npm audit --omit=dev --json` found `next`/`postcss` dependency findings (one high and one moderate package classification). After upgrade, `npm audit --omit=dev --audit-level=moderate`: **0 vulnerabilities**.
+- In isolated cloud sandbox: `npm ci`, `npm test` **24/24 PASS**, `npm run typecheck` PASS, `NEXT_TELEMETRY_DISABLED=1 npm run build` PASS on Next.js **16.4.2**. Existing Phase 2b source unchanged.
+- First in-place browser smoke was invalid due to stale server process/port when swapping Next.js builds in a shared sandbox. No code defect was inferred. **Retested in a fresh sandbox** using dedicated port 3129: Chromium at 320/390/1280 px **all PASS**, status 200, session mode switch and conditional result change, security headers (`nosniff`, `no-referrer`, `DENY`), no horizontal overflow/page JS errors/failed browser requests, zero axe WCAG A/AA automated violations.
+- New release not yet made: protected Vercel deployment `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh` still runs the older Phase 2a commit. Do not claim patched dependency is live until Git integration + deployment READY verified. No Actions or automatic previews.
+- Next: review/merge security PR and mark original PR #3 superseded without losing its advisory evidence. Manually deploy exact main ref into protected Vercel project, verify target and state. Real-device iPhone Safari + VoiceOver remains a separate manual gate.
+
+
 
 ### 2026-10-17 — Phase 2b abstract session profile verified in cloud
 
