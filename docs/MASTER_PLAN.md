@@ -1,6 +1,6 @@
 # Security Twin — Master Plan
 
-> **Status:** Planning baseline v1.0 (not an implemented product)  
+> **Status:** Master plan v1.0; implementation underway (Phases 1, 2a complete; Phase 2b session-only model in review)  
 > **Established:** 2026-10-17 (JST)  
 > **Last reviewed:** 2026-10-17 (JST)  
 > **Source of truth:** This plan for product intent; [PROGRESS.md](./PROGRESS.md) for implementation status, decisions, and handoff.  
@@ -232,9 +232,9 @@ Public data licenses and contributor terms must be chosen before accepting submi
 
 ## 9. Proposed technology and delivery approach
 
-**Implementation choices are provisional until Phase 0 decisions.**
+**Implementation choices began as provisional Phase 0 decisions and are now tracked in the handoff log.**
 
-- Mobile-first web/PWA initially; Next.js + TypeScript is a reasonable option, but the repository currently contains no application scaffold.
+- Mobile-first web/PWA initially; Next.js + TypeScript was selected for the first working web app (Phase 2a); see [PROGRESS.md](./PROGRESS.md) for current release state.
 - Separate package boundaries: `domain/schema`, `core/engine`, `app/consumer`, `app/developer`, `commons/catalog` where justified; don't create empty packages prematurely.
 - Pure deterministic TypeScript model/engine; graph rendering is an adapter, never the source of truth.
 - Schema versioning, reproducible fixtures, import/export. No server/database dependency for simulation.
