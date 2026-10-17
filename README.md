@@ -23,7 +23,7 @@ The test suite covers 12 deterministic engine cases plus 6 guest demo scenarios.
 - `src/engine.ts` — pure typed three-valued access/recovery evaluator, candidate cloning and explanations.
 - `src/demo.ts` — fictional guest account example, scenario changes and hypothetical spare-key comparison.
 - `components/SecurityWorkspace.tsx` — interactive graph, accessible list, status detail, results and scenario controls.
-- `app/` — Next.js 15 App Router shell and Security Twin-specific responsive UI styles.
+- `app/` — Next.js 16 App Router shell and Security Twin-specific responsive UI styles.
 - `tests/` — synthetic engine and guest fixture tests.
 
 No login, cloud database, AI request, secret import, real provider integration or user graph persistence is present in this release candidate. **Never enter passwords or recovery codes here.** Browser storage alone is not a safe encryption boundary: real data storage must pass the recorded threat review first.
