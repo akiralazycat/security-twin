@@ -1,10 +1,10 @@
 # Security Twin — Progress & Handoff
 
 > **Updated:** 2026-10-17 (JST)  
-> **Project status:** Phase 1 merged; Phase 2a guest atlas verified, merged into main and deployed behind Vercel Authentication  
+> **Project status:** Phase 1 and Phase 2a merged; Phase 2b session-only editor implemented and cloud-tested on feature branch  
 > **Authoritative intent:** [MASTER_PLAN.md](./MASTER_PLAN.md)  
-> **Branch:** `main`; Phase 1 [PR #1](https://github.com/akiralazycat/security-twin/pull/1) and Phase 2a [PR #2](https://github.com/akiralazycat/security-twin/pull/2) merged  
-> **Next focus:** Verify protected live UI in real iPhone Safari / VoiceOver, then privacy architecture decision before editable personal graph
+> **Branch:** `feat/phase-2b-session-profile` (awaiting PR); Phase 1 PR #1 and Phase 2a PR #2 merged into `main`  
+> **Next focus:** Review Phase 2b PR and merge after scoped test gate; update protected Vercel release; real iPhone Safari / VoiceOver audit remains for next manual check
 
 ## Snapshot: current reality (2026-10-17 JST)
 
@@ -16,13 +16,15 @@
 
 **Not done:** actual iOS Safari/VoiceOver manual audit, private-model editing, storage encryption/key lifecycle design, history/real verification workflow, developer studio and public catalog. Vercel project `security-twin` (`prj_aFaxHaHyNd4d7TW3Mwiir7oPamtl`) exists in team `team_sc8kOqVvtRrKPTwt2fSw6gWJ`; project is not Git-linked (manual deployment used). Preview deployments were disabled intentionally. **Protected Vercel deployment READY:** `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh`, URL `https://security-twin-sphereorb.vercel.app`, from feature branch commit `4d55b0df73895a7d2a78b3a40acbd6bb6e76ac34`, Vercel target `production`, Vercel Auth enabled.
 
+**Phase 2b (verified on feature branch):** Anonymous two-question session-only abstract profile, explicitly conditional engine evaluation, no identifiers/secrets, no storage or API calls. The previous protected Vercel deployment **still runs Phase 2a**; do not imply Phase 2b was released. Decision: [PHASE2B_PRIVACY.md](./PHASE2B_PRIVACY.md). Tests **24/24 passed**, typecheck/build passed; Chromium interaction at 320/375/390/768/1280px passed. axe-core reported zero WCAG 2/2.1 A/AA automated violations in six sample/session runs after a contrast adjustment (two manual-review/incomplete categories per run). Actual iPhone Safari and VoiceOver still not performed.
+
 ## Roadmap state
 
 | Phase | State | Work / acceptance reference |
 | --- | --- | --- |
 | 0 — Foundation | **Complete (docs only)** | Master plan, scope, product intent, phased acceptance, handoff |
 | 1 — Model & engine | **Complete / merged** | Typed graph; capability distinctions; evidence; deterministic scenarios; tests |
-| 2 — Consumer vertical slice | **Phase 2a deployed (protected); manual iOS QA + personal model pending** | Guest experience; mobile atlas + list; 1–2 failure simulations |
+| 2 — Consumer vertical slice | **2a deployed; 2b session-only abstract model verified on branch; iOS QA pending** | Guest experience; mobile atlas + list; 1–2 failure simulations |
 | 3 — Explore & verify | **Not started** | Candidate comparison; hypothetical/actual/verified distinctions |
 | 4 — Developer alpha | **Not started** | Expert workspace, policy, repeatable reports, local execution |
 | 5 — Public Commons alpha | **Not started** | Curated sourced capabilities, correction protocol, public guides |
@@ -84,7 +86,7 @@ Follow the master's gate criteria. Do not preemptively scaffold all future modul
 1. **Completed:** Reviewed and squash-merged Phase 2a [PR #2](https://github.com/akiralazycat/security-twin/pull/2) into main, commit `348d86f76dfde4569df9943b760095a11def5d77`. Both Phase 1 and Phase 2a now live in main; Vercel's manually created deployment remains source-linked to the feature branch commit (same application code; documentation was subsequently updated).
 2. **Deployment complete:** protected Vercel URL `https://security-twin-sphereorb.vercel.app` built READY from `4d55b0df…` with deployment ID `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh`. It was requested as staging, but Vercel actually classified the deployment as `production`; default Vercel Authentication remains enabled. No unrelated domain was touched, and auto previews remain disabled.
 3. **Next manual validation (PC not required):** open the deployed page on a real iPhone (Safari) and check 320/390 style, orientation, VoiceOver names, dark contrast, reduced motion and candidate/real-setting distinction; document remaining defects and fix together before claiming Phase 2 complete.
-4. **Do not expand into real accounts** until encrypted persistence / key recovery design has its own threat review. Afterwards decide whether to implement a simple local editor or a portable demo-first architecture.
+4. **Session-only abstract assumptions are implemented** without identifiers, local browser storage or cloud record. **Do not expand into real account names, per-service model or persistence** until encryption/key recovery receives its own threat review. See [Phase 2b](./PHASE2B_PRIVACY.md).
 
 ## Handoff template (copy at the end of each completed task)
 
@@ -101,6 +103,19 @@ Follow the master's gate criteria. Do not preemptively scaffold all future modul
 Never imply an unexecuted test passed or an unmerged change shipped.
 
 ## Dated change log
+
+### 2026-10-17 — Phase 2b abstract session profile verified in cloud
+
+- Branch `feat/phase-2b-session-profile`. Recorded storage threat decision D2b-01 in `docs/PHASE2B_PRIVACY.md`: React memory only, no real account identifiers/secrets, no client or server storage, no unreviewed encrypted vault.
+- `src/profile.ts`: tri-state anonymous assumptions for independent alternate login and mailbox-independent recovery, self-reported evidence rather than verification, pure adapter reusing Phase 1 engine. `tests/profile.test.mjs`: six tests including 3 × 3 combinations, compromised-mailbox uncertainty, immutable baseline and hypothetical candidate, unknown and invalid state.
+- `components/SecurityWorkspace.tsx`: sample/session mode switch, two three-way response controls, explicit reset, local-only warning, accessible graph/list and explanation. `app/globals.css`: responsive controls and increased muted-text contrast.
+- Actual repository branch tested in Vercel disposable sandbox: `npm ci --no-audit --no-fund` PASS; `npm test` **24/24 PASS**; `npm run typecheck` PASS; `NEXT_TELEMETRY_DISABLED=1 npm run build` PASS.
+- Chromium automation at 320/375/390/768/1280px: all checks passed for demo → abstract switch, unknown/no/yes login outcomes, yes/unknown recovery paths, compromised-mailbox attacker outcome, added hypothetical spare key, baseline comparison, reset, reload, no page errors/unexpected external requests and no horizontal overflow.
+- Accessibility automated `axe-core` WCAG2/2.1 A/AA test found a low-contrast metadata label; fixed color `--subtle: #98aba9`, reran at 320/390/1280px for both modes: **0 automated violations**; two incomplete/manual checks in each run. No claims about VoiceOver or actual iPhone browser validation.
+- **Pending at this checkpoint:** PR review, merge, deployment, protected live HTTP verification and real iPhone Safari/VoiceOver. Previous Phase 2a Vercel READY is unaffected; no GitHub Actions or preview builds used.
+- Next smallest action: review scope and PR, integrate one unit, deploy exact main commit, then finish device/manual acceptance separately.
+
+
 
 ### 2026-10-17 — Phase 2a integrated into main
 
