@@ -139,14 +139,17 @@ export default function SecurityWorkspace() {
   const selected = LABELS[selectedNode];
   const selectedDetail = selectedNode === "spare-key" && proposed
     ? "仮に独立したキーを追加した場合の計算です。実際の登録・動作確認を意味しません。"
-    : selected.detail;
+    : selectedNode === "account" && sessionMode
+      ? "選択した回答を前提にした抽象モデルです。どのサービスで実際に使えるかは検証していません。"
+      : selected.detail;
+  const selectedTitle = selectedNode === "account" && sessionMode ? "モデル上のアカウント" : selected.title;
 
   const nodes: { id: NodeId; title: string; eyebrow: string; status: Status; description: string }[] = [
     { id: "phone", title: "スマートフォン", eyebrow: "ログイン手段", status: phone, description: ownerWord(phone) },
     { id: "mailbox", title: "メインメール", eyebrow: "復旧先", status: mailbox, description: scenario === "compromisedMailbox" ? "侵害を想定" : ownerWord(mailbox) },
     { id: "spare-key", title: sessionMode && !proposed ? "別のログイン方法" : "予備キー", eyebrow: proposed ? "仮の変更" : "別の経路", status: spare,
       description: proposed ? "仮に追加" : sessionMode ? answers.otherLogin === "yes" ? "自己申告：ある" : answers.otherLogin === "unknown" ? "条件が不明" : "申告なし" : "未追加" },
-    { id: "account", title: "架空のアカウント", eyebrow: "通常ログイン", status: login.status, description: ownerWord(login.status) },
+    { id: "account", title: sessionMode ? "モデル上のアカウント" : "架空のアカウント", eyebrow: "通常ログイン", status: login.status, description: ownerWord(login.status) },
   ];
 
   return (
@@ -321,7 +324,7 @@ export default function SecurityWorkspace() {
                 <div className="atlas-footer">
                   <div className="node-detail" aria-live="polite">
                     <span className="detail-kicker">{selected.kind} / 選択中</span>
-                    <strong>{selected.title}</strong>
+                    <strong>{selectedTitle}</strong>
                     <p>{selectedDetail}</p>
                   </div>
                   <span className="atlas-count">MODEL {results.baseline.configurationId}</span>
