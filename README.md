@@ -4,7 +4,7 @@
 
 Security Twin is a local-first security dependency simulator. A fictional sample illustrates phone, mailbox and recovery dependencies. A second **session-only abstract profile** asks only whether an independent alternate login and an independent recovery method exist (yes/no/unknown). Neither mode asks for passwords, service names or recovery codes, and both share one deterministic engine.
 
-> **Status (2026-10-17):** Phase 1, Phase 2a and Phase 2b are merged into main. Next.js security dependency upgrade to 16.4.2 is verified on `fix/next16-postcss-advisories` (pending PR integration at this checkpoint). The protected Vercel deployment still runs the earlier Phase 2a release. Actual iPhone Safari / VoiceOver QA, personal identifiers, model persistence and encrypted storage remain out of scope.
+> **Status (2026-10-17):** Phase 1, Phase 2a and Phase 2b are merged into main. Next.js 16.4.2 security dependency upgrade is merged (PR #5) and deployed together with the Phase 2b session-only experience. Actual iPhone Safari / VoiceOver QA, personal identifiers, model persistence and encrypted storage remain out of scope.
 
 ## Run locally (Node 22 or 24)
 
@@ -39,7 +39,7 @@ No login, cloud database, AI request, secret import, real provider integration o
 
 **Security dependencies:** upgrade tested using Next.js 16.4.2, with patched PostCSS 8.5.23 (`npm audit --omit=dev --audit-level=moderate`: 0 vulnerabilities). Previous Next 15/PostCSS lockfile had a high and moderate warning. Security-only branch preserves React and domain engine behavior. Original [PR #3](https://github.com/akiralazycat/security-twin/pull/3) supplied the patch; this branch reapplies it to current main without reverting Phase 2b.
 
-**Hosting:** [Security Twin on Vercel](https://security-twin-sphereorb.vercel.app) (deployment `dpl_NiNZRvu8v2KzCvYKPAwTU4UgS6Sh`, READY; Vercel Authentication protection enabled). Platform assigned the first manual Git-sourced deployment a **production** target; the repository is not connected for Git-triggered auto deployments, and automatic preview deployments are disabled. Real-device Safari/VoiceOver QA remains open. No GitHub Actions needed.
+**Hosting:** [Security Twin on Vercel](https://security-twin-sphereorb.vercel.app) (deployment `dpl_HtfTZjyPNQ2dtWXznZ1Azuh5Fuuu`, READY; Vercel Authentication protection enabled). The manually deployed `main` commit `6f783176f50b78233ca7136f86480d983faf66e7` is assigned the **production** target; the repository is not connected for Git-triggered auto deployments, and automatic preview deployments are disabled. Real-device Safari/VoiceOver QA remains open. No GitHub Actions needed.
 
 ## License
 
