@@ -11,12 +11,14 @@ Security Twin is a local-first security dependency simulator. A fictional sample
 ```sh
 npm ci
 npm test
-npm run typecheck
 npm run build
+npm run typecheck
 npm run dev
 ```
 
 The test suite covers 12 engine cases, 6 fictional examples and 6 abstract profile cases. Most recent cloud verification: **24/24 tests passed**, TypeScript check and production build passed. Chromium interaction/overflow checks passed at 320, 375, 390, 768 and 1280px; automated axe WCAG A/AA checks found **zero violations** across sample and session modes at 320/390/1280px, with some rules requiring manual review. Real iPhone Safari/VoiceOver verification is still pending; see [Progress & handoff](docs/PROGRESS.md).
+
+Run `npm test` for the deterministic model and fixture checks. The production build generates Next.js types before the standalone TypeScript check. Use [Progress & handoff](docs/PROGRESS.md) to find the current browser and device evidence.
 
 ## Repository map
 
